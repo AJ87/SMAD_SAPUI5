@@ -2,7 +2,35 @@
 	<App>
 		<pages>
 			<Page title="{i18n>title}">
-				<content></content>
+				<content>
+					<source>
+					// Form layout
+					var oLayout = new sap.ui.commons.form.GridLayout();
+
+					// Create the form
+					var oLayout = new sap.ui.commons.form.GridLayout();
+
+					// Form Element
+					var oFormElement = new sap.ui.commons.form.FormElement();
+					oFormElement.setLabel("First Name");
+					oFormElement.addField(new sap.ui.commons.TextField({
+						value : "First Name"
+					}));
+
+					// Form Container
+					var oFormCont = new sap.ui.commons.form.FormContainer();
+					oFormCont.setTitle("Registration Form");
+					oFormCont.addFormElement(oFormElement);
+
+					// Form
+					var oForm = new sap.ui.commons.form.Form();
+					oForm.setTitle("Form");
+					oForm.setLayout(oLayout);
+					oForm.addFormContatiner(oFormCont);
+
+					oForm.placeAt("content");
+				</source>
+				</content>
 			</Page>
 		</pages>
 	</App>
