@@ -207,8 +207,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						text:"Birthdate", 
 						required:true
 					});
-					var minDate = new Date(2004,1,1);
-					var maxDate = new Date(2012,12,31);
+					var minDate = new Date(2004,0,1);
+					var maxDate = new Date(2012,11,31);
 					bindValue = "{/child/" + arrayNumber + "/birthdate}";
 					oChildInput = new sap.m.DatePicker(oView.createId("InputChildBirthdate" + counter),{
 						change:[oController.childValidation,oController],
