@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-var rego = require('./rego.js');
+var regoFunction = require('./rego.js');
 
 http.createServer(function (request, response) {
     console.log('request starting...');
@@ -11,9 +11,6 @@ http.createServer(function (request, response) {
     var filePath = '.' + request.url;
     if (filePath == './') {
         filePath = './index.html';
-    }
-    if (filePath == './index.html') {
-      filePath = './SMAD_SAPUI5/webapp/index.html';
     }
 
     console.log(filePath);
@@ -36,7 +33,7 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json.parent1);
 
-          rego.createRego(json);
+          var rego = regoFunction.createRego(json);
           var rc = rego.saveData();
 
           if (rc == 0) {
