@@ -5,7 +5,6 @@ var regoFunction = require('./rego.js');
 
 http.createServer(function (request, response) {
     console.log('request starting...');
-
     console.log(request.url);
 
     var filePath = '.' + request.url;
@@ -13,13 +12,12 @@ http.createServer(function (request, response) {
         filePath = './index.html';
     }
 
-    console.log(filePath);
-
     if (filePath == './rego') {
-      console.log("Here");
       var body = "";
       if (request.method == 'POST') {
-        console.log("Post");
+        var ip = request.headers['x-forwarded-for'] ||
+                 request.connection.remoteAddress;
+        console.log("Submission from IP: " + ip + ' on ' + new Date());
         request.on('error', function(err) {
           console.log(err);
         }).on('data', function(chunk) {
@@ -28,10 +26,9 @@ http.createServer(function (request, response) {
             request.connection.destroy();
           }
         }).on('end', function() {
-          console.log(body);
 
           var json = JSON.parse(body);
-          console.log(json.parent1);
+          console.log(json);
 
           var rego = regoFunction.createRego(json);
           var rc = rego.saveData();
