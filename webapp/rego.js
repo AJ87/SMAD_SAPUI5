@@ -1,6 +1,7 @@
 var fs = require('fs');
 var ReadWriteLock = require('rwlock');
 var json2csv = require('json2csv');
+var utilities = require('./utilities.js');
 
 var counter = 4;
 const file = '../../registrations/regos.csv';
@@ -31,7 +32,6 @@ module.exports = {
     counter = counter + 1;
 
     return {
-
       saveData: function() {
         var rc = 0;
         var data = '';
@@ -97,6 +97,38 @@ module.exports = {
         });
 
         return rc;
+      }
+    };
+  },
+  createGetter: function() {
+    return {
+      getData: function(id, callback) {
+        var json = {};
+
+        if (id) {
+          lock.readLock('childLock', function(release) {
+            fs.readFile(childFile, 'utf-8', function(err, data) {
+              if (err) {
+                console.log('Error reading file');
+              } else {
+                var json = utilities.csv2json(data, childFields, id, callback);
+              }
+              release();
+            });
+          });
+
+        } else {
+          lock.readLock(function(release) {
+            fs.readFile(file, 'utf-8', function(err, data) {
+              if (err) {
+                console.log('Error reading file');
+              } else {
+                json = utilities.csv2json(data, fields, null, callback);
+              }
+              release();
+            });
+          });
+        }
       }
     };
   }
