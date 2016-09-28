@@ -60,6 +60,12 @@ http.createServer(function (request, response) {
       }
     } else {
 
+      if (filePath == './registrations/viewer' || filePath == './registrations/viewer/') {
+        filePath = './index.html';
+      }
+
+      console.log(filePath);
+
       var extname = path.extname(filePath);
       var contentType = 'text/html';
       switch (extname) {
