@@ -72,7 +72,7 @@ sap.ui.jsview("SMADJS.view.registration", {
     });
 
     var oPage = new sap.m.Page(this.createId("TablePage"),{
-			title: "{i18n>title}",
+			title: "{i18n>titleRegView}",
 			content: [oTable],
 		});
 
@@ -80,6 +80,6 @@ sap.ui.jsview("SMADJS.view.registration", {
 			initialPage: "oPage"
 		});
 		app.addPage(oPage);
-		return app;
+		return oPage;
   }
 });

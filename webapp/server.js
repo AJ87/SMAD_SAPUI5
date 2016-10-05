@@ -60,10 +60,6 @@ http.createServer(function (request, response) {
       }
     } else {
 
-      if (filePath == './registrations/viewer' || filePath == './registrations/viewer/') {
-        filePath = './index.html';
-      }
-
       console.log(filePath);
 
       var extname = path.extname(filePath);
@@ -98,6 +94,7 @@ http.createServer(function (request, response) {
                   });
               }
               else {
+                  console.log("filepath: " + filePath);
                   response.writeHead(500);
                   response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
                   response.end();
