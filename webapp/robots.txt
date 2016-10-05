@@ -1,2 +1,4 @@
 User-agent: [*]
 Disallow: [/view/]
+User-agent: [*]
+Disallow: [/#/registration_view]

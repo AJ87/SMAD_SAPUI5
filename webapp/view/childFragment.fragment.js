@@ -72,11 +72,23 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
       columns: columns,
     });
 
+		var oButtonDownload = new sap.m.Button({
+			text:"Download",
+			type:"Accept",
+			press:[oController.downloadChild,oController]
+		});
+
+		var oBar = new sap.m.Bar({
+			contentRight:[oButtonDownload]
+		});
+
     var oChildPage = new sap.m.Page(this.createId("ChildTablePage"),{
 			title: "{i18n>titleChildView}",
 			content: [oTable],
 			showNavButton:true,
-			navButtonTap:[oController.backToRegistrations,oController]
+			navButtonTap:[oController.backToRegistrations,oController],
+			showFooter: true,
+			footer: [oBar]
 		});
 
 		return [oChildPage];

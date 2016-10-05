@@ -60,7 +60,14 @@ http.createServer(function (request, response) {
       }
     } else {
 
+      if (filePath == './registrations/download') {
+        filePath = './../../registrations/regos.csv';
+      }
+      if (filePath == './registrations/downloadChild') {
+        filePath = './../../registrations/child.csv';
+      }
       console.log(filePath);
+
 
       var extname = path.extname(filePath);
       var contentType = 'text/html';

@@ -98,6 +98,30 @@ sap.ui.define([
 			xhttp.open("POST", url, true);
 			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 			xhttp.send();
+		},
+		download: function() {
+			let a = document.createElement("a");
+      a.style = "display: none";
+      document.body.appendChild(a);
+      //Create a DOMString representing the blob
+      //and point the link element towards it
+      let url = "/registrations/download";
+      a.href = url;
+      a.download = 'registrations.csv';
+      //programatically click the link to trigger the download
+      a.click();
+		},
+		downloadChild: function() {
+			let a = document.createElement("a");
+      a.style = "display: none";
+      document.body.appendChild(a);
+      //Create a DOMString representing the blob
+      //and point the link element towards it
+      let url = "/registrations/downloadChild";
+      a.href = url;
+      a.download = 'SMADchildren.csv';
+      //programatically click the link to trigger the download
+      a.click();
 		}
   });
 });

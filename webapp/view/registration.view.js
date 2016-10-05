@@ -71,9 +71,21 @@ sap.ui.jsview("SMADJS.view.registration", {
 			mode: sap.m.ListMode.SingleSelectMaster
     });
 
+		var oButtonDownload = new sap.m.Button({
+			text:"Download",
+			type:"Accept",
+			press:[oController.download,oController]
+		});
+
+		var oBar = new sap.m.Bar({
+			contentRight:[oButtonDownload]
+		});
+
     var oPage = new sap.m.Page(this.createId("TablePage"),{
 			title: "{i18n>titleRegView}",
 			content: [oTable],
+			showFooter:true,
+			footer:[oBar]
 		});
 
 		var app = new sap.m.App(this.createId("myApp"), {
