@@ -83,12 +83,20 @@
 			  "pattern": "registration_view",
 			  "name": "regoView",
 			  "target": "viewer"
-			  }],
+			},{
+				"pattern": "registration_view/{id}",
+				"name": "childView",
+				"target": "childView"
+			}],
 			"targets": {
 			  "viewer": {
 			    "viewName": "registration",
 					"transition":"show"
-			  }
+			  },
+				"childView": {
+					"viewName": "child",
+					"transition": "show"
+				}
 			}
   	}
 	}

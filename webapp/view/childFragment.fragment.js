@@ -73,13 +73,12 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
     });
 
     var oChildPage = new sap.m.Page(this.createId("ChildTablePage"),{
-			title: "{i18n>title}",
+			title: "{i18n>titleChildView}",
 			content: [oTable],
 			showNavButton:true,
-			navButtonTap:[oController.backToWizard,oController]
+			navButtonTap:[oController.backToRegistrations,oController]
 		});
 
 		return [oChildPage];
-
-  }
+	}
 });

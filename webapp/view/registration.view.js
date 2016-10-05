@@ -80,6 +80,6 @@ sap.ui.jsview("SMADJS.view.registration", {
 			initialPage: "oPage"
 		});
 		app.addPage(oPage);
-		return oPage;
+		return app;
   }
 });

@@ -51,7 +51,7 @@ sap.ui.define([
 			xhttp.send();
 
 		},
-		backToWizard: function() {
+		backToRegistrations: function() {
 			this._oApp.backToPage(this._oPage.getId());
 		},
 		rowSelection: function(oEvent) {
