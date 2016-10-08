@@ -40,12 +40,12 @@ sap.ui.define([
 			var oDate = new Date();
 
 			// for testing
-			oDate = new Date("October 15, 2016 12:00:00");
+			//oDate = new Date("October 15, 2016 12:00:00");
 
 			if (oDate.getMonth() < 9) {
 				this._oApp.to(this._oWizardPreRegoPage);
 			} else {
-				if (oDate.getMonth() === 10 && oDate.getDate() < 15) {
+				if (oDate.getMonth() === 9 && oDate.getDate() < 15) {
 					this._oApp.to(this._oWizardPreRegoPage);
 				} else {
 					if (oDate.getDate() === 15 && oDate.getHours() < 12) {
