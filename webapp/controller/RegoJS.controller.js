@@ -34,6 +34,9 @@ sap.ui.define([
 			this._oWizardPreRegoPage = sap.ui.jsfragment("SMADJS.view.PreRegoFragment", this);
 			this._oApp.addPage(this._oWizardPreRegoPage);
 
+			this._oWizardPostRegoPage = sap.ui.jsfragment("SMADJS.view.PostRegoFragment", this);
+			this._oApp.addPage(this._oWizardPostRegoPage);
+
 			var oDate = new Date();
 
 			// for testing
@@ -50,6 +53,23 @@ sap.ui.define([
 					}
 				}
 			}
+
+			var that = this;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					if (this.status === 200) {
+
+					} else {
+						var message = "Registration full";
+						that._oApp.to(that._oWizardPostRegoPage);
+					}
+				}
+			};
+
+			xhttp.open("GET", "/numberOfChildren", true);
+			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
+			xhttp.send();
 		},
 		infoValidation: function() {
 			var firstNameEl = this.getView().byId("InputParent1FirstName");
