@@ -60,7 +60,7 @@ http.createServer(function (request, response) {
       }
     } else if (filePath == './numberOfChildren') {
       var numberOfChildren = regoFunction.getNumberOfChildren();
-      if (numberOfChildren < 135) {
+      if (numberOfChildren < 130) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
@@ -125,4 +125,4 @@ http.createServer(function (request, response) {
     }
 
 }).listen(80);
-console.log('Server running at http://127.0.0.1:8125/');
+console.log('Server running at http://127.0.0.1:80/');
