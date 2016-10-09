@@ -1,6 +1,6 @@
 sap.ui.jsview("SMADJS.view.RegoJS", {
 
-	/** Specifies the Controller belonging to this View. 
+	/** Specifies the Controller belonging to this View.
 	 * In the case that it is not implemented, or that "null" is returned, this View does not have a Controller.
 	 * @memberOf controller.RegoJS
 	 */
@@ -8,7 +8,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		return "SMADJS.controller.RegoJS";
 	},
 
-	/** Is initially called once after the Controller has been instantiated. It is the place where the UI is constructed. 
+	/** Is initially called once after the Controller has been instantiated. It is the place where the UI is constructed.
 	 * Since the Controller is given to this method, its event handlers can be attached right away.
 	 * @memberOf controller.RegoJS
 	 */
@@ -16,7 +16,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 
 		// parent 1 form
 		var oLabel = new sap.m.Label({
-			text:"First Name", 
+			text:"First Name",
 			required:true
 		});
 		var oInput = new sap.m.Input(this.createId("InputParent1FirstName"),{
@@ -30,7 +30,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		oSimpleForm.addContent(oInput);
 
 		oLabel = new sap.m.Label({
-			text:"Last Name", 
+			text:"Last Name",
 			required:true
 		});
 		oInput = new sap.m.Input(this.createId("InputParent1LastName"),{
@@ -40,10 +40,10 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oLabel = new sap.m.Label({
-			text:"Mobile Number", 
-			type:"number", 
+			text:"Mobile Number",
+			type:"number",
 			required:true
 		});
 		oInput = new sap.m.Input(this.createId("InputParent1Mobile"),{
@@ -53,10 +53,10 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oLabel = new sap.m.Label({
-			text:"Email Address", 
-			type:"email", 
+			text:"Email Address",
+			type:"email",
 			required:true
 		});
 		oInput = new sap.m.Input(this.createId("InputParent1Email"),{
@@ -66,9 +66,9 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oLabel = new sap.m.Label({
-			text:"Address", 
+			text:"Address",
 			required:true
 		});
 		oInput = new sap.m.Input(this.createId("InputParent1Address"),{
@@ -78,18 +78,18 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
-		// wizard		
+
+		// wizard
 		var oWizard = new sap.m.Wizard(this.createId("RegoWizard"),{
 			complete:[oController.wizardCompleted,oController]
 		});
 		var oWStep = new sap.m.WizardStep(this.createId("WizardStepParent1"),{
-			title:"Parent / Guardian 1 Information", 
+			title:"Parent / Guardian 1 Information",
 			validated:false
 		});
 		oWStep.addContent(oSimpleForm);
 		oWizard.addStep(oWStep);
-		
+
 		// 2nd step - parent 2 info
 		oSimpleForm = new sap.ui.layout.form.SimpleForm();
 
@@ -98,7 +98,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oInput = new sap.m.Input(this.createId("InputParent2FirstName"),{
 			value:"{/parent2/firstName}"
-		});		
+		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
 
@@ -110,9 +110,9 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oLabel = new sap.m.Label({
-			text:"Mobile Number", 
+			text:"Mobile Number",
 			type:"number"
 		});
 		oInput = new sap.m.Input(this.createId("InputParent2Mobile"),{
@@ -122,9 +122,9 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oLabel = new sap.m.Label({
-			text:"Email Address", 
+			text:"Email Address",
 			type:"email"
 		});
 		oInput = new sap.m.Input(this.createId("InputParent2Email"),{
@@ -134,16 +134,16 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oInput);
-		
+
 		oWStep = new sap.m.WizardStep(this.createId("WizardStepParent2"),{
 			title:"Parent / Guardian 2 Information"
 		});
 		oWStep.addContent(oSimpleForm);
 		oWizard.addStep(oWStep);
-		
+
 		// 3rd step - child info
 		var oCStep = new sap.m.WizardStep(this.createId("WizardStepChild"),{
-			title:"Child Information", 
+			title:"Child Information",
 			validated:false
 		});
 		oWizard.addStep(oCStep);
@@ -162,22 +162,22 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			press:[oController.nextStep,oController]
 		});
 		var oChildHBox = new sap.m.HBox({
-			items:[oBtnNextStep]	
+			items:[oBtnNextStep]
 		});
-	
+
 		function childAdder() {
 			var childNo = 1;
 			var counter = 1;
 			var childFormArray = [];
-			
+
 			return {
 				addChild: function addChild(oView) {
 					var oChildForm = new sap.ui.layout.form.SimpleForm(oView.createId("ChildForm" + counter));
 					childFormArray.push(oChildForm.getId());
 					oChildForm.setTitle("Child " + childNo);
-				
+
 					var oChildLabel = new sap.m.Label({
-						text:"First Name", 
+						text:"First Name",
 						required:true
 					});
 					var arrayNumber = childNo - 1;
@@ -186,12 +186,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						liveChange:[oController.childValidation,oController],
 						value:bindValue,
 						valueStateText:"Required"
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Last Name", 
+						text:"Last Name",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/lastName}";
@@ -199,12 +199,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						liveChange:[oController.childValidation,oController],
 						value:bindValue,
 						valueStateText:"Required"
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Birthdate", 
+						text:"Birthdate",
 						required:true
 					});
 					var minDate = new Date(2004,0,1);
@@ -219,12 +219,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						placeholder:"dd/mm/yyyy",
 						minDate:minDate,
 						maxDate:maxDate
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Gender", 
+						text:"Gender",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/gender}";
@@ -242,12 +242,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 							key:"Female",
 							text:"Female"
 						}]
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"School", 
+						text:"School",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/school}";
@@ -255,12 +255,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						liveChange:[oController.childValidation,oController],
 						value:bindValue,
 						valueStateText:"Required"
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Year (beginning February 2017)", 
+						text:"Year (beginning February 2017)",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/year}";
@@ -296,23 +296,23 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 							key:"Year 7",
 							text:"Year 7"
 						}]
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Friend request (must be same year and mutual)", 
+						text:"Friend request (must be same year and mutual)",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/friend}";
 					oChildInput = new sap.m.Input(oView.createId("InputChildFriend" + counter),{
 						value:bindValue
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Medicare Number", 
+						text:"Medicare Number",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/medicare1}";
@@ -321,10 +321,10 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						value:bindValue,
 						valueStateText:"Valid 10 digit Medicare Number",
 						maxLength:10
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
 						text:"Number on card",
 						required:true
@@ -333,14 +333,14 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildInput = new sap.m.Input(oView.createId("InputChildMedicare2" + counter),{
 						liveChange:[oController.childValidation,oController],
 						value:bindValue,
-						valueStateText:"2 Digits from Medicare Card",
-						maxLength:2
-					});		
+						valueStateText:"1 Digit from Medicare Card",
+						maxLength:1
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Medical Info", 
+						text:"Medical Info",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/medicalInfo}";
@@ -349,12 +349,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						growing:true,
 						growingMaxLines:4,
 						maxLength:500
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Dietary Info", 
+						text:"Dietary Info",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/dietaryInfo}";
@@ -363,12 +363,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						growing:true,
 						growingMaxLines:4,
 						maxLength:500
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oChildLabel = new sap.m.Label({
-						text:"Medication", 
+						text:"Medication",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/medication}";
@@ -377,12 +377,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						growing:true,
 						growingMaxLines:4,
 						maxLength:500
-					});		
+					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
-					
+
 					oCStep.addContent(oChildForm);
-				
+
 					oCStep.removeContent(oButton);
 					oCStep.addContent(oButton);
 					oCStep.removeContent(oBtnRemove);
@@ -391,7 +391,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					}
 					oCStep.removeContent(oChildHBox);
 					oCStep.addContent(oChildHBox);
-				
+
 					childNo++;
 					counter++;
 				},
@@ -408,12 +408,12 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 				}
 			};
 		}
-		
+
 		this.children = childAdder();
-		
+
 		// 4th step - consent
 		oWStep = new sap.m.WizardStep(this.createId("WizardStepConsent"),{
-			title:"Consent", 
+			title:"Consent",
 			validated:false
 		});
 
@@ -424,8 +424,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			valueStateText:"Required"
 		});
 		var oText = new sap.m.ObjectIdentifier(this.createId("TermsLink"),{
-			title:"Terms of Enrolment", 
-			titleActive:true, 
+			title:"Terms of Enrolment",
+			titleActive:true,
 			titlePress:[oController.terms,oController]
 		});
 		var oHBox = new sap.m.HBox(this.createId("HBoxTerms"),{
@@ -434,7 +434,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oHBox);
 		oWStep.addContent(oSimpleForm);
-		
+
 		oSimpleForm = new sap.ui.layout.form.SimpleForm();
 		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBFirstAid"),{
 			select:[oController.selected,oController],
@@ -442,8 +442,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			valueStateText:"Required"
 		});
 		oText = new sap.m.ObjectIdentifier(this.createId("FirstAidLink"),{
-			title:"First Aid and Safety Policies", 
-			titleActive:true, 
+			title:"First Aid and Safety Policies",
+			titleActive:true,
 			titlePress:[oController.firstAid,oController]
 		});
 		oHBox = new sap.m.HBox(this.createId("HBoxFirstAid"),{
@@ -452,7 +452,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oHBox);
 		oWStep.addContent(oSimpleForm);
-		
+
 		oSimpleForm = new sap.ui.layout.form.SimpleForm();
 		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBPrivacy"),{
 			select:[oController.selected,oController],
@@ -460,8 +460,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			valueStateText:"Required"
 		});
 		oText = new sap.m.ObjectIdentifier(this.createId("PrivacyLink"),{
-			title:"Privacy Policy", 
-			titleActive:true, 
+			title:"Privacy Policy",
+			titleActive:true,
 			titlePress:[oController.privacy,oController]
 		});
 		oHBox = new sap.m.HBox(this.createId("HBoxPrivacy"),{
@@ -470,7 +470,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oHBox);
 		oWStep.addContent(oSimpleForm);
-		
+
 		oSimpleForm = new sap.ui.layout.form.SimpleForm();
 		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBRefund"),{
 			select:[oController.selected,oController],
@@ -478,8 +478,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			valueStateText:"Required"
 		});
 		oText = new sap.m.ObjectIdentifier(this.createId("RefundLink"),{
-			title:"Refund Policy", 
-			titleActive:true, 
+			title:"Refund Policy",
+			titleActive:true,
 			titlePress:[oController.refund,oController]
 		});
 		oHBox = new sap.m.HBox(this.createId("HBoxRefund"),{
@@ -488,32 +488,32 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 		});
 		oSimpleForm.addContent(oHBox);
 		oWStep.addContent(oSimpleForm);
-		
+
 		oWizard.addStep(oWStep);
-		
+
 		var oButtonCancel = new sap.m.Button({
 			text:"Cancel",
 			type:"Reject",
 			press:[oController.handleCancel,oController]
 		});
-		
+
 		var oButtonHelp = new sap.m.Button({
 			text:"Help",
 			type:"Emphasized",
 			press:[oController.handleHelp,oController]
 		});
-		
+
 		var oBar = new sap.m.Bar({
-			contentRight:[oButtonCancel,oButtonHelp]	
+			contentRight:[oButtonCancel,oButtonHelp]
 		});
-		
+
 		var oPage = new sap.m.Page(this.createId("WizardPage"),{
 			title: "{i18n>title}",
 			content: [oWizard],
 			showFooter:true,
 			footer:[oBar]
 		});
-		
+
 		var app = new sap.m.App(this.createId("myApp"), {
 			initialPage: "oPage"
 		});
