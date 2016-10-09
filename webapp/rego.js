@@ -3,7 +3,8 @@ var ReadWriteLock = require('rwlock');
 var json2csv = require('json2csv');
 var utilities = require('./utilities.js');
 
-var counter = 4;
+var counter = 0;
+var kids = 0;
 const file = '../../registrations/regos.csv';
 const childFile = '../../registrations/child.csv';
 var lock = new ReadWriteLock();
@@ -30,6 +31,9 @@ module.exports = {
   createRego: function(json) {
     var json = json;
     counter = counter + 1;
+
+    kids = kids + json.child.length;
+    console.log(kids);
 
     return {
       saveData: function() {
@@ -131,5 +135,8 @@ module.exports = {
         }
       }
     };
+  },
+  getNumberOfChildren: function() {
+    return kids;
   }
 };

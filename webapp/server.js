@@ -58,6 +58,15 @@ http.createServer(function (request, response) {
           response.end(JSON.stringify(json));
         });
       }
+    } else if (filePath == './numberOfChildren') {
+      var numberOfChildren = regoFunction.getNumberOfChildren();
+      if (numberOfChildren < 135) {
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end();
+      } else {
+        response.writeHead(500, { 'Content-Type': 'text/html' });
+        response.end();
+      }
     } else {
 
       if (filePath == './registrations/download') {

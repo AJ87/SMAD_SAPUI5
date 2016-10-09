@@ -34,15 +34,18 @@ sap.ui.define([
 			this._oWizardPreRegoPage = sap.ui.jsfragment("SMADJS.view.PreRegoFragment", this);
 			this._oApp.addPage(this._oWizardPreRegoPage);
 
+			this._oWizardPostRegoPage = sap.ui.jsfragment("SMADJS.view.PostRegoFragment", this);
+			this._oApp.addPage(this._oWizardPostRegoPage);
+
 			var oDate = new Date();
 
 			// for testing
-			oDate = new Date("October 15, 2016 12:00:00");
+			//oDate = new Date("October 15, 2016 12:00:00");
 
 			if (oDate.getMonth() < 9) {
 				this._oApp.to(this._oWizardPreRegoPage);
 			} else {
-				if (oDate.getMonth() === 10 && oDate.getDate() < 15) {
+				if (oDate.getMonth() === 9 && oDate.getDate() < 15) {
 					this._oApp.to(this._oWizardPreRegoPage);
 				} else {
 					if (oDate.getDate() === 15 && oDate.getHours() < 12) {
@@ -50,6 +53,23 @@ sap.ui.define([
 					}
 				}
 			}
+
+			var that = this;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					if (this.status === 200) {
+
+					} else {
+						var message = "Registration full";
+						that._oApp.to(that._oWizardPostRegoPage);
+					}
+				}
+			};
+
+			xhttp.open("GET", "/numberOfChildren", true);
+			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
+			xhttp.send();
 		},
 		infoValidation: function() {
 			var firstNameEl = this.getView().byId("InputParent1FirstName");
