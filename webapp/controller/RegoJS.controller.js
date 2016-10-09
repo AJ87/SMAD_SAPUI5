@@ -168,8 +168,8 @@ sap.ui.define([
 				//medicare number on card
 				var medicare2El = this.getView().byId("InputChildMedicare2" + cId.slice(-1));
 				var medicare2 = medicare2El.getValue();
-				this.setValueState(this.validateNumber(medicare2,2), medicare2El);
-				if (!(this.validateNumber(medicare2,2))) {
+				this.setValueState(this.validateNumber(medicare2,1), medicare2El);
+				if (!(this.validateNumber(medicare2,1))) {
 					valid = false;
 				}
 			}
@@ -331,6 +331,9 @@ sap.ui.define([
 							that._oWizardSubmitPage = sap.ui.jsfragment("SMADJS.view.SubmitFragment", that);
 							that._oApp.addPage(that._oWizardSubmitPage);
 							that._oApp.to(that._oWizardSubmitPage);
+						} else if (this.status === 503) {
+							message = "Registration is full";
+							that._oApp.to(that._oWizardPostRegoPage);
 						} else {
 							message = "Submission failed";
 							that.message = message;

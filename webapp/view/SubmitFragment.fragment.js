@@ -12,7 +12,8 @@ sap.ui.jsfragment("SMADJS.view.SubmitFragment", {
 		});
 
 		if (oController.status === 200) {
-			var text2 = "Registration is not complete until you have paid. You will receive an email with instructions shortly. If you receive no email within 24 hours then email smadcamp@hotmail.com";
+			var text2 = "Registration is not complete until you have paid (cost is $80/child for the week). Payment details:\n\n" +
+			"Account Name: CANBERRA BAPTIST CHURCH - SMAD CAMP\nBSB: 062 901\nAccount Number: 1021 7815\nReference: Your child/ren's last name";
 		} else {
 			text2 = "Please email smadcamp@hotmail.com";
 		}

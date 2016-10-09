@@ -26,19 +26,24 @@ http.createServer(function (request, response) {
             request.connection.destroy();
           }
         }).on('end', function() {
-
           var json = JSON.parse(body);
           console.log(json);
 
-          var rego = regoFunction.createRego(json);
-          var rc = rego.saveData();
-
-          if (rc == 0) {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end("Success", 'utf-8');
+          if (regoFunction.getNumberOfChildren() > 140) {
+            console.log("Rego already full. Above was not saved");
+            response.writeHead(503, { 'Content-Type': 'text/html' });
+            response.end("Registration full", 'utf-8');
           } else {
-            response.writeHead(500, { 'Content-Type': 'text/html' });
-            response.end("Error saving data on server", 'utf-8');
+            var rego = regoFunction.createRego(json);
+            var rc = rego.saveData();
+
+            if (rc == 0) {
+              response.writeHead(200, { 'Content-Type': 'text/html' });
+              response.end("Success", 'utf-8');
+            } else {
+              response.writeHead(500, { 'Content-Type': 'text/html' });
+              response.end("Error saving data on server", 'utf-8');
+            }
           }
         })
       }
@@ -59,8 +64,7 @@ http.createServer(function (request, response) {
         });
       }
     } else if (filePath == './numberOfChildren') {
-      var numberOfChildren = regoFunction.getNumberOfChildren();
-      if (numberOfChildren < 130) {
+      if (regoFunction.getNumberOfChildren() < 135) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
