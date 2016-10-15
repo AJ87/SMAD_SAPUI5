@@ -67,7 +67,9 @@ sap.ui.define([
 				}
 			};
 
-			xhttp.open("GET", "/numberOfChildren", true);
+			var sValue = jQuery.sap.getUriParameters().get("regoID");
+
+			xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
 			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
 			xhttp.send();
 		},

@@ -8,6 +8,14 @@ http.createServer(function (request, response) {
     console.log(request.url);
 
     var filePath = '.' + request.url;
+
+    filePath = filePath.split('?');
+    var params = filePath[1];
+    filePath = filePath[0];
+
+    console.log(filePath);
+    console.log(params);
+
     if (filePath == './') {
         filePath = './index.html';
     }
@@ -29,7 +37,7 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > 140) {
+          if (regoFunction.getNumberOfChildren() > 145) {
             console.log("Rego already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
@@ -64,12 +72,19 @@ http.createServer(function (request, response) {
         });
       }
     } else if (filePath == './numberOfChildren') {
-      if (regoFunction.getNumberOfChildren() < 135) {
+      var paramArray = params.split('=');
+
+      if (paramArray[0] === 'regoID' && paramArray[1] === '4X983iidXieZ73C') {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
-        response.writeHead(500, { 'Content-Type': 'text/html' });
-        response.end();
+        if (regoFunction.getNumberOfChildren() < 135) {
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end();
+        } else {
+          response.writeHead(500, { 'Content-Type': 'text/html' });
+          response.end();
+        }
       }
     } else {
 
