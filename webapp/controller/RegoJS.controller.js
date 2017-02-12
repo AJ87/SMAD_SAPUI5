@@ -42,6 +42,8 @@ sap.ui.define([
 			// for testing
 			//oDate = new Date("October 15, 2016 12:00:00");
 
+
+			if (2017 < 2016) { 
 			if (oDate.getMonth() < 9) {
 				this._oApp.to(this._oWizardPreRegoPage);
 			} else {
@@ -52,6 +54,7 @@ sap.ui.define([
 						this._oApp.to(this._oWizardPreRegoPage);
 					}
 				}
+			}
 			}
 
 			var that = this;

@@ -37,7 +37,7 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > 145) {
+          if (regoFunction.getNumberOfChildren() > 155) {
             console.log("Rego already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');

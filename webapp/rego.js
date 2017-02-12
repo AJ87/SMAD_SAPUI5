@@ -3,8 +3,8 @@ var ReadWriteLock = require('rwlock');
 var json2csv = require('json2csv');
 var utilities = require('./utilities.js');
 
-var counter = 78;
-var kids = 135;
+var counter = 81;
+var kids = 142;
 const file = '../../registrations/regos.csv';
 const childFile = '../../registrations/child.csv';
 var lock = new ReadWriteLock();
