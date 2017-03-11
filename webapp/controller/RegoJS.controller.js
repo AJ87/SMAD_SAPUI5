@@ -15,7 +15,8 @@ sap.ui.define([
 				parent1:{},
 				parent2:{},
 				child:[{}],
-				consent:{}
+				consent:{},
+				preRego:{}
 			});
 			this.getView().setModel(this.oModel);
 
@@ -42,20 +43,21 @@ sap.ui.define([
 			// for testing
 			//oDate = new Date("October 15, 2016 12:00:00");
 
-
-			if (2017 < 2016) { 
-			if (oDate.getMonth() < 9) {
-				this._oApp.to(this._oWizardPreRegoPage);
-			} else {
-				if (oDate.getMonth() === 9 && oDate.getDate() < 15) {
+			// need to check year here
+			var year = oDate.getYear() + 1900; // years start counting from 1900
+			if (year < 2018) {
+				if (oDate.getMonth() < 9) {
 					this._oApp.to(this._oWizardPreRegoPage);
 				} else {
-					if (oDate.getDate() === 15 && oDate.getHours() < 12) {
+					if (oDate.getMonth() === 9 && oDate.getDate() < 15) {
 						this._oApp.to(this._oWizardPreRegoPage);
+					} else {
+						if (oDate.getDate() === 15 && oDate.getHours() < 12) {
+							this._oApp.to(this._oWizardPreRegoPage);
+						}
 					}
 				}
-			}
-			}
+			} else {
 
 			var that = this;
 			var xhttp = new XMLHttpRequest();
@@ -75,6 +77,7 @@ sap.ui.define([
 			xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
 			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
 			xhttp.send();
+			}
 		},
 		infoValidation: function() {
 			var firstNameEl = this.getView().byId("InputParent1FirstName");
@@ -362,6 +365,46 @@ sap.ui.define([
 			};
 
 			this._handleMessageBoxOpen.call(this,"Are you sure you want to cancel the review?", "warning", cancelCallback);
+		},
+		handleSubmitEmail: function() {
+			var email = this.oModel.oData.preRego.email;
+
+			if (this.validateEmail(email)) {
+
+				var that = this;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState === 4) {
+						if (this.status === 200) {
+							var message = "Successfully submitted email";
+							that.message = message;
+							that.status = 200;
+							that._oWizardSubmitEmailPage = sap.ui.jsfragment("SMADJS.view.SubmitEmailFragment", that);
+							that._oApp.addPage(that._oWizardSubmitEmailPage);
+							that._oApp.to(that._oWizardSubmitEmailPage);
+						} else if (this.status === 500) {
+							message = "Failed to submit email";
+							that.message = message;
+							that.status = 500;
+							that._oWizardSubmitEmailPage = sap.ui.jsfragment("SMADJS.view.SubmitEmailFragment", that);
+							that._oApp.addPage(that._oWizardSubmitEmailPage);
+							that._oApp.to(that._oWizardSubmitEmailPage);
+						}
+					}
+				};
+
+				var emailTxt = `"${email}"`;
+				var data = JSON.stringify({"email":email});
+				xhttp.open("POST", "/preRegistration", true);
+				xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+				xhttp.send(data);
+
+			} else {
+				var that = this;
+				MessageBox["warning"]("Invalid email",{
+					actions:[MessageBox.Action.OK]
+				});
+			}
 		},
 		handleCancel: function() {
 			var cancelCallback = function() {

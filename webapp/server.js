@@ -3,6 +3,8 @@ var fs = require('fs');
 var path = require('path');
 var regoFunction = require('./rego.js');
 
+regoFunction.initialise();
+
 http.createServer(function (request, response) {
     console.log('request starting...');
     console.log(request.url);
@@ -86,6 +88,34 @@ http.createServer(function (request, response) {
           response.end();
         }
       }
+    } else if (filePath == './preRegistration') {
+
+      var body = "";
+      if (request.method == 'POST') {
+        var ip = request.headers['x-forwarded-for'] ||
+                 request.connection.remoteAddress;
+        console.log("Submission from IP: " + ip + ' on ' + new Date());
+        request.on('error', function(err) {
+          console.log(err);
+        }).on('data', function(chunk) {
+          body += chunk;
+          if (body.length > 1e6) {
+            request.connection.destroy();
+          }
+        }).on('end', function() {
+          var json = JSON.parse(body);
+          console.log(json);
+          console.log(json.email);
+
+          if (regoFunction.saveEmail(json)) {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end();
+          } else {
+            response.writeHead(500, { 'Content-Type': 'text/html' });
+            response.end();
+          }
+        })
+      }
     } else {
 
       if (filePath == './registrations/download') {
@@ -143,5 +173,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(80);
-console.log('Server running at http://127.0.0.1:80/');
+}).listen(3125);
+console.log('Server running at http://127.0.0.1:3125/');

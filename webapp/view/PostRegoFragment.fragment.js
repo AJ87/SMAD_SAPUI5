@@ -22,7 +22,7 @@ sap.ui.jsfragment("SMADJS.view.PostRegoFragment", {
 		});
 
 		var oPostRegoPage = new sap.m.Page({
-			title:"SMAD Camp Registration 2017",
+			title:"{i18n>appTitle}",
 			content: [oPanel,oPanel2],
 			showNavButton:false
 		});
