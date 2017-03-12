@@ -61,17 +61,29 @@ http.createServer(function (request, response) {
     } else if (filePath == './registrations' || filePath.substring(0,15) == './registration/') {
       var registration = regoFunction.createGetter();
       if (filePath == './registrations') {
-        var json = registration.getData(null, function(json) {
-          response.writeHead(200, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify(json));
-        });
+        registration.getData(null)
+        .then(
+          function fullfilled(json) {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.end(JSON.stringify(json));
+          },
+          function rejected(reason) {
+            console.log(reason);
+          }
+        );
       } else {
         var filePathArray = filePath.split('/');
         console.log(filePathArray[2]);
-        var json = registration.getData(filePathArray[2], function(json) {
-          response.writeHead(200, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify(json));
-        });
+        registration.getData(filePathArray[2])
+        .then(
+          function fullfilled(json) {
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.end(JSON.stringify(json));
+          },
+          function rejected(reason) {
+            console.log(reason);
+          }
+        );
       }
     } else if (filePath == './numberOfChildren') {
       var paramArray = params.split('=');
