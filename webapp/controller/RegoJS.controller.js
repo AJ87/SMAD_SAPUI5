@@ -45,7 +45,7 @@ sap.ui.define([
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
-			if (year < 2018) {
+			if (year < 2017) {
 				if (oDate.getMonth() < 9) {
 					this._oApp.to(this._oWizardPreRegoPage);
 				} else {

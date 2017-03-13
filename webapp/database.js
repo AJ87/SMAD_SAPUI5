@@ -9,8 +9,10 @@ var database = function() {
 
   var _close_db = function() {
     console.log("Closing database");
-    _db.close();
-    _db = null;
+    if (_db) {
+      _db.close();
+      _db = null;
+    }
   }
 
   var _setCollection = function(table) {
@@ -114,7 +116,6 @@ var database = function() {
         _connect(table, _findDocument, key)
         .then(
           function fullfilled(result) {
-            console.log(result);
             if (result[0]) {
               resolve(result[0]);
             } else {
@@ -130,7 +131,7 @@ var database = function() {
     createRecord: function(key, data, table) {
       return new Promise( function pr(resolve,reject) {
         console.log("Create Record");
-        getRecord(key, table)
+        database.getRecord(key, table)
         .then(
           function fullfilled(result) {
             console.log("Record already exists with same key");
@@ -153,7 +154,7 @@ var database = function() {
     updateRecord: function(key, data, table) {
       return new Promise( function pr(resolve,reject) {
         console.log("Update Record");
-        deleteRecord(key, table)
+        database.deleteRecord(key, table)
         .then(
           function fullfilled(result) {
             _connect(table, _insertDocument, data)

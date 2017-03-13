@@ -45,15 +45,17 @@ http.createServer(function (request, response) {
             response.end("Registration full", 'utf-8');
           } else {
             var rego = regoFunction.createRego(json);
-            var rc = rego.saveData();
-
-            if (rc == 0) {
-              response.writeHead(200, { 'Content-Type': 'text/html' });
-              response.end("Success", 'utf-8');
-            } else {
-              response.writeHead(500, { 'Content-Type': 'text/html' });
-              response.end("Error saving data on server", 'utf-8');
-            }
+            rego.saveData()
+            .then(
+              function fullfilled(result) {
+                response.writeHead(200, { 'Content-Type': 'text/html' });
+                response.end("Success", 'utf-8');
+              },
+              function rejected(reason) {
+                response.writeHead(500, { 'Content-Type': 'text/html' });
+                response.end("Error saving data on server", 'utf-8');
+              }
+            );
           }
         })
       }
@@ -119,13 +121,17 @@ http.createServer(function (request, response) {
           console.log(json);
           console.log(json.email);
 
-          if (regoFunction.saveEmail(json)) {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end();
-          } else {
-            response.writeHead(500, { 'Content-Type': 'text/html' });
-            response.end();
-          }
+          regoFunction.saveEmail(json).
+          then(
+            function fullfilled(result) {
+              response.writeHead(200, { 'Content-Type': 'text/html' });
+              response.end();
+            },
+            function rejected(reason) {
+              response.writeHead(500, { 'Content-Type': 'text/html' });
+              response.end();
+            }
+          );
         })
       }
     } else {

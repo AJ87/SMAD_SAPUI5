@@ -1,7 +1,35 @@
 var db = require('./database.js');
 
-var counter = 0;
-var kids = 0;
+var counter = {id:'counter',
+               counter:0};
+var kids = {id:'kids',
+            kids:0};
+
+function updateCounter() {
+// update counter on db
+  db.updateRecord({id:'counter'},counter,'config')
+  .then(
+    function fullfilled(result) {
+      console.log(`counter updated with ${counter.counter}`);
+      console.log(counter.counter);
+    },
+    function rejected(reason) {
+      console.log(`failed to update counter: ${reason}`);
+    }
+  );
+}
+function updateKids() {
+// update kids on db
+  db.updateRecord({id:'kids'},kids,'config')
+  .then(
+    function fullfilled(result) {
+      console.log(`kids updated with ${kids.kids}`);
+    },
+    function rejected(reason) {
+      console.log(`failed to update kids: ${reason}`);
+    }
+  );
+}
 
 module.exports = {
   initialise: function() {
@@ -9,29 +37,33 @@ module.exports = {
     db.getRecord({id:'counter'},'config')
     .then(
       function fullfilled(result) {
-        counter = result;
+        console.log(`initialise counter: ${result.counter}`);
+        counter.counter = result.counter;
+      },
+      function rejected(reason) {
+        console.log(reason);
+      }
+    );
+
+    db.getRecord({id:'kids'},'config')
+    .then(
+      function fullfilled(result) {
+        console.log(`initialise kids: ${result.kids}`);
+        kids.kids = result.kids;
       },
       function rejected(reason) {
         console.log(reason);
       }
     );
   },
-  updateCounter: function(counter) {
-// update counter on db
-
-  },
-  updateKids: function(kids) {
-// update kids on db
-
-  },
   createRego: function(json) {
     var json = json;
-    counter = counter + 1;
-    updateCounter(counter);
+    counter.counter = counter.counter + 1;
+    updateCounter();
 
-    kids = kids + json.child.length;
-    updateKids(kids);
-    console.log(kids);
+    kids.kids = kids.kids + json.child.length;
+    updateKids();
+    console.log(kids.kids);
 
     return {
       saveData: function() {
@@ -39,11 +71,22 @@ module.exports = {
         var data = '';
         var childData = '';
 
-        json.parent1.id = counter;
+        json.parent1.id = counter.counter;
 
 // save db with record
-
-        return rc;
+        return new Promise( function pr(resolve,reject) {
+          db.createRecord({id:counter.counter},json,'regos')
+          .then(
+            function fullfilled(result) {
+              console.log(`saved record number ${counter.counter}`);
+              resolve(result);
+            },
+            function rejected(reason) {
+              console.log(reason);
+              reject(reason);
+            }
+          );
+        });
       }
     };
   },
@@ -54,16 +97,36 @@ module.exports = {
         return new Promise( function pr(resolve,reject) {
 // get data from db
 // call either resolve or reject
+          db.getRecord({id:id},'regos')
+          .then(
+            function fullfilled(result) {
+
+            },
+            function rejected(reason) {
+
+            }
+          );
         });
       }
     };
   },
   getNumberOfChildren: function() {
-    return kids;
+    return kids.kids;
   },
   saveEmail: function(json) {
 // save to db
-
-    return true;
+    return new Promise( function pr(resolve,reject) {
+      db.createRecord(json,json,'emails')
+      .then(
+        function fullfilled(result) {
+          console.log(`saved email: ${json.email}`);
+          resolve(result);
+        },
+        function rejected(reason) {
+          console.log(`email not saved: ${reason}`);
+          resolve(reason);
+        }
+      );
+    });
   }
 };
