@@ -5,8 +5,16 @@ var kids = 0;
 
 module.exports = {
   initialise: function() {
-// set counter and kis from db
-
+// set counter and kids from db
+    db.getRecord({id:'counter'},'config')
+    .then(
+      function fullfilled(result) {
+        counter = result;
+      },
+      function rejected(reason) {
+        console.log(reason);
+      }
+    );
   },
   updateCounter: function(counter) {
 // update counter on db
@@ -47,6 +55,7 @@ module.exports = {
 // get data from db
 // call either resolve or reject
         });
+      }
     };
   },
   getNumberOfChildren: function() {

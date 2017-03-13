@@ -18,58 +18,78 @@ var database = function() {
     _collection = _db.collection(table);
   }
 
-  var _insertDocument = function(data, callback) {
-    console.log("Insert Document");
-    _collection.insertOne(data, function(err, result) {
-      if (err) {
-        console.log("Error inserting document: " + data);
-        throw err;
-      } else {
-        _close_db();
-        callback(result.ops);
-      }
+  var _insertDocument = function(data) {
+    return new Promise( function pr(resolve,reject) {
+      console.log("Insert Document");
+      _collection.insertOne(data, function(err, result) {
+        if (err) {
+          console.log("Error inserting document: " + data);
+          //throw err;
+          reject(err);
+        } else {
+          _close_db();
+          resolve(result.ops);
+        }
+      });
     });
   }
 
-  var _findDocument = function(key, callback) {
-    console.log("Find Document");
-    _collection.find(key).toArray(function(err, docs) {
-      if (err) {
-        console.log("Error finding document: " + data);
-        throw err;
-      } else {
-        _close_db();
-        callback(docs);
-      }
+  var _findDocument = function(key) {
+    return new Promise( function pr(resolve,reject) {
+      console.log("Find Document");
+      _collection.find(key).toArray(function(err, docs) {
+        if (err) {
+          console.log("Error finding document: " + data);
+          //throw err;
+          reject(err);
+        } else {
+          _close_db();
+          resolve(docs);
+        }
+      });
     });
   }
 
-  var _deleteDocument = function(key, callback) {
-    console.log("Delete Document");
-    _collection.deleteOne(key, function(err, result) {
-      if (err) {
-        console.log("Error deleting document: " + data);
-        throw err;
-      } else {
-        _close_db();
-        callback(result.result.n);
-      }
+  var _deleteDocument = function(key) {
+    return new Promise( function pr(resolve,reject) {
+      console.log("Delete Document");
+      _collection.deleteOne(key, function(err, result) {
+        if (err) {
+          console.log("Error deleting document: " + data);
+          //throw err;
+          reject(err);
+        } else {
+          _close_db();
+          resolve(result.result.n);
+        }
+      });
     });
   }
 
-  var _connect = function(table, operation, data, callback) {
-    console.log("Connecting to database...");
-    // Use connect method to connect to the database
-    MongoClient.connect(url, function(err, db) {
-      if (err === null) {
-        console.log("Connected successfully to database");
-        _db = db;
-        _setCollection(table);
-        operation(data, callback);
-      } else {
-        console.log("Error connecting to database");
-        throw err;
-      }
+  var _connect = function(table, operation, data) {
+    return new Promise( function pr(resolve,reject) {
+      console.log("Connecting to database...");
+      // Use connect method to connect to the database
+      MongoClient.connect(url, function(err, db) {
+        if (err === null) {
+          console.log("Connected successfully to database");
+          _db = db;
+          _setCollection(table);
+          operation(data)
+          .then(
+            function fullfilled(result) {
+              resolve(result);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        } else {
+          console.log("Error connecting to database");
+          //throw err;
+          reject(err);
+        }
+      });
     });
   }
 
@@ -94,7 +114,12 @@ var database = function() {
         _connect(table, _findDocument, key)
         .then(
           function fullfilled(result) {
-            resolve(result[0]);
+            console.log(result);
+            if (result[0]) {
+              resolve(result[0]);
+            } else {
+              reject("No record");
+            };
           },
           function rejected(reason) {
             reject(reason);
@@ -145,7 +170,7 @@ var database = function() {
             reject(reason);
           }
         );
-      }
+      });
     },
     deleteRecord: function(key, table) {
       return new Promise( function pr(resolve,reject) {
