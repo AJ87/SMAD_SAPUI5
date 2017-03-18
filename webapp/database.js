@@ -39,7 +39,6 @@ var database = function() {
   var _findDocument = function(key) {
     return new Promise( function pr(resolve,reject) {
       console.log("Find Document");
-      console.log(key);
       _collection.find(key).toArray(function(err, docs) {
         if (err) {
           console.log("Error finding document: " + data);

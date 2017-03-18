@@ -1,6 +1,8 @@
 var json2csv = require('./utilities.js');
 var db = require('./database.js');
 
+var currentYear = 2017;
+
 var counter = {id:'counter',
                counter:0};
 var kids = {id:'kids',
@@ -30,6 +32,16 @@ function updateKids() {
       console.log(`failed to update kids: ${reason}`);
     }
   );
+}
+
+function formatDate(timestamp) {
+  var year, month, day;
+
+  year = timestamp.substr(0,4);
+  month = timestamp.substr(5,2);
+  day = timestamp.substr(8,2);
+
+  return `${day}/${month}/${year}`;
 }
 
 module.exports = {
@@ -74,8 +86,54 @@ module.exports = {
 
         json.parent1.id = counter.counter;
         json.id = counter.counter;
+        json.recordYear = currentYear;
+        json.waitlist = false;
         for (val of json.child) {
           val.id = counter.counter;
+// fix the date format
+          val.birthdate = formatDate(val.birthdate);
+        }
+
+// save db with record
+        return new Promise( function pr(resolve,reject) {
+          db.createRecord({id:counter.counter},json,'regos')
+          .then(
+            function fullfilled(result) {
+              console.log(`saved record number ${counter.counter}`);
+              resolve(result);
+            },
+            function rejected(reason) {
+              console.log(reason);
+              reject(reason);
+            }
+          );
+        });
+      }
+    };
+  },
+  createWaitlistRego: function(json) {
+    var json = json;
+    counter.counter = counter.counter + 1;
+    updateCounter();
+
+    kids.kids = kids.kids + json.child.length;
+    updateKids();
+    console.log(kids.kids);
+
+    return {
+      saveData: function() {
+        var rc = 0;
+        var data = '';
+        var childData = '';
+
+        json.parent1.id = counter.counter;
+        json.id = counter.counter;
+        json.recordYear = currentYear;
+        json.waitlist = true;
+        for (val of json.child) {
+          val.id = counter.counter;
+// fix the date format
+          val.birthdate = formatDate(val.birthdate);
         }
 
 // save db with record
@@ -187,6 +245,7 @@ module.exports = {
   saveEmail: function(json) {
 // save to db
     return new Promise( function pr(resolve,reject) {
+      json.recordYear = currentYear;
       db.createRecord(json,json,'emails')
       .then(
         function fullfilled(result) {

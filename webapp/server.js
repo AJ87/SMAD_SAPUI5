@@ -39,7 +39,7 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > 155) {
+          if (regoFunction.getNumberOfChildren() > 140) {
             console.log("Rego already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
@@ -59,7 +59,37 @@ http.createServer(function (request, response) {
           }
         })
       }
+    } else if (filePath == './waitlistRego') {
+      var waitlistBody = "";
+      if (request.method == 'POST') {
+        var ip = request.headers['x-forwarded-for'] ||
+                 request.connection.remoteAddress;
+        console.log("Submission from IP: " + ip + ' on ' + new Date());
+        request.on('error', function(err) {
+          console.log(err);
+        }).on('data', function(chunk) {
+          waitlistBody += chunk;
+          if (waitlistBody.length > 1e6) {
+            request.connection.destroy();
+          }
+        }).on('end', function() {
+          var waitlistJson = JSON.parse(waitlistBody);
+          console.log(waitlistJson);
 
+          var waitlistRego = regoFunction.createWaitlistRego(waitlistJson);
+          waitlistRego.saveData()
+          .then(
+            function fullfilled(result) {
+              response.writeHead(200, { 'Content-Type': 'text/html' });
+              response.end("Success", 'utf-8');
+            },
+            function rejected(reason) {
+              response.writeHead(500, { 'Content-Type': 'text/html' });
+              response.end("Error saving data on server", 'utf-8');
+            }
+          );
+        })
+      }
     } else if (filePath == './registrations' || filePath.substring(0,15) == './registration/') {
       var registration = regoFunction.createGetter();
       if (filePath == './registrations') {
