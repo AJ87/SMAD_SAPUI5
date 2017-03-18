@@ -1,3 +1,4 @@
+var json2csv = require('./utilities.js');
 var db = require('./database.js');
 
 var counter = {id:'counter',
@@ -72,6 +73,10 @@ module.exports = {
         var childData = '';
 
         json.parent1.id = counter.counter;
+        json.id = counter.counter;
+        for (val of json.child) {
+          val.id = counter.counter;
+        }
 
 // save db with record
         return new Promise( function pr(resolve,reject) {
@@ -97,21 +102,87 @@ module.exports = {
         return new Promise( function pr(resolve,reject) {
 // get data from db
 // call either resolve or reject
-          db.getRecord({id:id},'regos')
-          .then(
-            function fullfilled(result) {
-
-            },
-            function rejected(reason) {
-
-            }
-          );
+          if (id) {
+            console.log(`id: ${id}`);
+            var key = {id: +id};
+            db.getRecord(key,'regos')
+            .then(
+              function fullfilled(result) {
+                resolve(result.child);
+              },
+              function rejected(reason) {
+                reject(reason);
+              }
+            );
+          } else {
+            db.getCollection('regos')
+            .then(
+              function fullfilled(result) {
+                resolve(result);
+              },
+              function rejected(reason) {
+                reject(reason);
+              }
+            );
+          }
         });
       }
     };
   },
   getNumberOfChildren: function() {
     return kids.kids;
+  },
+  download: function() {
+    return new Promise( function pr(resolve,reject) {
+      console.log('Get collection');
+      db.getCollection('regos')
+      .then(
+        function fullfilled(result) {
+          json2csv.convert(result)
+          .then(
+            function fullfilled(csv) {
+              resolve(csv);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        },
+        function rejected(reason) {
+          console.log(`Failed reason: ${reason}`);
+          reject(reason);
+        }
+      );
+    });
+  },
+  downloadChild: function() {
+    return new Promise( function pr(resolve,reject) {
+      console.log('Get collection');
+      db.getCollection('regos')
+      .then(
+        function fullfilled(result) {
+          var children = [];
+          for (var rego of result) {
+            for (var child of rego.child) {
+              children.push(child);
+            }
+          }
+          json2csv.convertChild(children)
+          .then(
+            function fullfilled(csv) {
+              resolve(csv);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        },
+        function rejected(reason) {
+          console.log(`Failed reason: ${reason}`);
+          reject(reason);
+        }
+      );
+    });
   },
   saveEmail: function(json) {
 // save to db

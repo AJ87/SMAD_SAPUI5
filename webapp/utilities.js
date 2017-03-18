@@ -1,33 +1,51 @@
-var Converter = require('csvtojson').Converter;
+var json2csv = require('json2csv');
 
-module.exports = {
-  csv2json: function(csv, jsonFields, id, callback) {
-    var converter = new Converter({
-      delimiter: ',',
-      noheader: true,
-      headers: jsonFields
+const fields =
+  ['parent1.id','parent1.firstName','parent1.lastName','parent1.mobile','parent1.email','parent1.address',
+   'parent2.firstName','parent2.lastName','parent2.mobile','parent2.email',
+   'consent.terms','consent.firstAid','consent.privacy','consent.refund'
+  ];
+
+  const childFields =
+    ['id','firstName','lastName','birthdate','gender','school','year','friend',
+     'medicare1','medicare2','medicalInfo','dietaryInfo','medication'];
+
+function convert(json) {
+  return new Promise( function pr(resolve,reject) {
+    console.log('json2csv');
+    var data = json2csv({
+      data: json,
+      fields: fields,
+      hasCSVColumnTitle: false
     });
+    console.log(data);
+    if (data) {
+      resolve(data);
+    } else {
+      reject('No csv');
+    };
+  });
+}
 
-    if (id) {
-      converter.preProcessLine=function(line,lineNumber){
-        var data = line.split(',');
-        if (data[0] !== id){
-          line = '';
-        }
-        return line;
-      }
-    }
-
-    converter.fromString(csv, function(err, result) {
-      if (err) {
-        console.log('Error converting csv');
-        return {};
-      } else {
-        console.log(result);
-        callback(result);
-        return result;
-      }
+function convertChild(json) {
+  return new Promise( function pr(resolve,reject) {
+    var data = json2csv({
+      data: json,
+      fields: childFields,
+      hasCSVColumnTitle: false
     });
+    console.log(data);
+    if (data) {
+      resolve(data);
+    } else {
+      reject('No csv');
+    };
+  });
+}
 
-  }
+var utility = {
+  convert: convert,
+  convertChild: convertChild
 };
+
+module.exports = utility;

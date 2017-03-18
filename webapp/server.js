@@ -121,8 +121,8 @@ http.createServer(function (request, response) {
           console.log(json);
           console.log(json.email);
 
-          regoFunction.saveEmail(json).
-          then(
+          regoFunction.saveEmail(json)
+          .then(
             function fullfilled(result) {
               response.writeHead(200, { 'Content-Type': 'text/html' });
               response.end();
@@ -134,16 +134,39 @@ http.createServer(function (request, response) {
           );
         })
       }
+    } else if (filePath == './registrations/download') {
+      console.log('Download');
+      regoFunction.download()
+      .then(
+        function fullfilled(result) {
+          console.log('Download success');
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end(result, 'utf-8');
+        },
+        function rejected(reason) {
+          console.log('Download failed');
+          response.writeHead(500);
+          response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+        }
+      );
+    } else if (filePath == './registrations/downloadChild') {
+      console.log('Child');
+      regoFunction.downloadChild()
+      .then(
+        function fullfilled(result) {
+          console.log('Download success');
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end(result, 'utf-8');
+        },
+        function rejected(reason) {
+          console.log('Download failed');
+          response.writeHead(500);
+          response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+        }
+      );
     } else {
 
-      if (filePath == './registrations/download') {
-        filePath = './../../registrations/regos.csv';
-      }
-      if (filePath == './registrations/downloadChild') {
-        filePath = './../../registrations/child.csv';
-      }
       console.log(filePath);
-
 
       var extname = path.extname(filePath);
       var contentType = 'text/html';
