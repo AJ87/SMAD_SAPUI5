@@ -18,6 +18,8 @@ http.createServer(function (request, response) {
     console.log(filePath);
     console.log(params);
 
+    var waitlist = false;
+
     if (filePath == './') {
         filePath = './index.html';
     }
@@ -44,8 +46,12 @@ http.createServer(function (request, response) {
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
           } else {
+            var paramArray = params.split('=');
+            if (paramArray[0] === 'waitlist' && paramArray[1] === 'true') {
+              waitlist = true;
+            }
             var rego = regoFunction.createRego(json);
-            rego.saveData()
+            rego.saveData(waitlist)
             .then(
               function fullfilled(result) {
                 response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -59,41 +65,14 @@ http.createServer(function (request, response) {
           }
         })
       }
-    } else if (filePath == './waitlistRego') {
-      var waitlistBody = "";
-      if (request.method == 'POST') {
-        var ip = request.headers['x-forwarded-for'] ||
-                 request.connection.remoteAddress;
-        console.log("Submission from IP: " + ip + ' on ' + new Date());
-        request.on('error', function(err) {
-          console.log(err);
-        }).on('data', function(chunk) {
-          waitlistBody += chunk;
-          if (waitlistBody.length > 1e6) {
-            request.connection.destroy();
-          }
-        }).on('end', function() {
-          var waitlistJson = JSON.parse(waitlistBody);
-          console.log(waitlistJson);
-
-          var waitlistRego = regoFunction.createWaitlistRego(waitlistJson);
-          waitlistRego.saveData()
-          .then(
-            function fullfilled(result) {
-              response.writeHead(200, { 'Content-Type': 'text/html' });
-              response.end("Success", 'utf-8');
-            },
-            function rejected(reason) {
-              response.writeHead(500, { 'Content-Type': 'text/html' });
-              response.end("Error saving data on server", 'utf-8');
-            }
-          );
-        })
-      }
     } else if (filePath == './registrations' || filePath.substring(0,15) == './registration/') {
       var registration = regoFunction.createGetter();
       if (filePath == './registrations') {
-        registration.getData(null)
+        paramArray = params.split('=');
+        if (paramArray[0] === 'waitlist' && paramArray[1] === 'true') {
+          waitlist = true;
+        }
+        registration.getData(null,waitlist)
         .then(
           function fullfilled(json) {
             response.writeHead(200, { 'Content-Type': 'application/json' });
@@ -106,7 +85,7 @@ http.createServer(function (request, response) {
       } else {
         var filePathArray = filePath.split('/');
         console.log(filePathArray[2]);
-        registration.getData(filePathArray[2])
+        registration.getData(filePathArray[2],null)
         .then(
           function fullfilled(json) {
             response.writeHead(200, { 'Content-Type': 'application/json' });
@@ -118,13 +97,13 @@ http.createServer(function (request, response) {
         );
       }
     } else if (filePath == './numberOfChildren') {
-      var paramArray = params.split('=');
+      paramArray = params.split('=');
 
-      if (paramArray[0] === 'regoID' && paramArray[1] === '4X983iidXieZ73C') {
+      if (paramArray[0] === 'regoID' && paramArray[1] === '5c60cd2892a845da902123ea690ae981') {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
-        if (regoFunction.getNumberOfChildren() < 135) {
+        if (regoFunction.getNumberOfChildren() < 5) {
           response.writeHead(200, { 'Content-Type': 'text/html' });
           response.end();
         } else {

@@ -79,7 +79,7 @@ module.exports = {
     console.log(kids.kids);
 
     return {
-      saveData: function() {
+      saveData: function(waitlist) {
         var rc = 0;
         var data = '';
         var childData = '';
@@ -87,53 +87,12 @@ module.exports = {
         json.parent1.id = counter.counter;
         json.id = counter.counter;
         json.recordYear = currentYear;
-        json.waitlist = false;
+        json.waitlist = waitlist;
         for (val of json.child) {
           val.id = counter.counter;
 // fix the date format
           val.birthdate = formatDate(val.birthdate);
-        }
-
-// save db with record
-        return new Promise( function pr(resolve,reject) {
-          db.createRecord({id:counter.counter},json,'regos')
-          .then(
-            function fullfilled(result) {
-              console.log(`saved record number ${counter.counter}`);
-              resolve(result);
-            },
-            function rejected(reason) {
-              console.log(reason);
-              reject(reason);
-            }
-          );
-        });
-      }
-    };
-  },
-  createWaitlistRego: function(json) {
-    var json = json;
-    counter.counter = counter.counter + 1;
-    updateCounter();
-
-    kids.kids = kids.kids + json.child.length;
-    updateKids();
-    console.log(kids.kids);
-
-    return {
-      saveData: function() {
-        var rc = 0;
-        var data = '';
-        var childData = '';
-
-        json.parent1.id = counter.counter;
-        json.id = counter.counter;
-        json.recordYear = currentYear;
-        json.waitlist = true;
-        for (val of json.child) {
-          val.id = counter.counter;
-// fix the date format
-          val.birthdate = formatDate(val.birthdate);
+          val.waitlist = waitlist;
         }
 
 // save db with record
@@ -155,7 +114,7 @@ module.exports = {
   },
   createGetter: function() {
     return {
-      getData: function(id) {
+      getData: function(id,waitlist) {
         var json = {};
         return new Promise( function pr(resolve,reject) {
 // get data from db
@@ -173,9 +132,11 @@ module.exports = {
               }
             );
           } else {
-            db.getCollection('regos')
+            key = {waitlist: waitlist};
+            db.getCollection(key,'regos')
             .then(
               function fullfilled(result) {
+                console.log(result);
                 resolve(result);
               },
               function rejected(reason) {

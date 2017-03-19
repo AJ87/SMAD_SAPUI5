@@ -96,10 +96,10 @@ var database = function() {
   }
 
   return {
-    getCollection: function(table) {
+    getCollection: function(key,table) {
       return new Promise( function pr(resolve,reject) {
         console.log("Get Collection");
-        _connect(table, _findDocument, {})
+        _connect(table, _findDocument, key)
         .then(
           function fullfilled(result) {
             resolve(result);

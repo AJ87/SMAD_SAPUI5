@@ -20,6 +20,8 @@ sap.ui.define([
 			});
 			this.getView().setModel(this.oModel);
 
+			this._waitlist = false;
+
 			this._oWizardTermsPage = sap.ui.jsfragment("SMADJS.view.TermsFragment", this);
 			this._oApp.addPage(this._oWizardTermsPage);
 
@@ -352,7 +354,11 @@ sap.ui.define([
 					}
 				};
 
-				xhttp.open("POST", "/rego", true);
+				if (this._waitlist) {
+					xhttp.open("POST", "/rego?waitlist=true", true);
+				} else {
+					xhttp.open("POST", "/rego?waitlist=false", true);
+				}
 				xhttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 				xhttp.send(this.oModel.getJSON());
 			};
@@ -405,6 +411,10 @@ sap.ui.define([
 					actions:[MessageBox.Action.OK]
 				});
 			}
+		},
+		handleWaitlist: function() {
+			this._waitlist = true;
+			this._oApp.backToPage(this._oPage.getId());
 		},
 		handleCancel: function() {
 			var cancelCallback = function() {

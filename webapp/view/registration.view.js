@@ -71,6 +71,12 @@ sap.ui.jsview("SMADJS.view.registration", {
 			mode: sap.m.ListMode.SingleSelectMaster
     });
 
+		var oButtonWaitlist = new sap.m.ToggleButton({
+			text:"Waitlist",
+			type:"Default",
+			press:[oController.switchWaitlist,oController]
+		});
+
 		var oButtonDownload = new sap.m.Button({
 			text:"Download",
 			type:"Accept",
@@ -78,7 +84,7 @@ sap.ui.jsview("SMADJS.view.registration", {
 		});
 
 		var oBar = new sap.m.Bar({
-			contentRight:[oButtonDownload]
+			contentRight:[oButtonWaitlist,oButtonDownload]
 		});
 
     var oPage = new sap.m.Page(this.createId("TablePage"),{
