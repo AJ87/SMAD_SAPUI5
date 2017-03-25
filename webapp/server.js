@@ -41,8 +41,8 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > 140) {
-            console.log("Rego already full. Above was not saved");
+          if (regoFunction.getNumberOfChildren() > 170) {
+            console.log("Rego and waitlist already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
           } else {
@@ -54,7 +54,11 @@ http.createServer(function (request, response) {
             rego.saveData(waitlist)
             .then(
               function fullfilled(result) {
-                response.writeHead(200, { 'Content-Type': 'text/html' });
+                if (waitlist) {
+                  response.writeHead(201, { 'Content-Type': 'text/html' });
+                } else {
+                  response.writeHead(200, { 'Content-Type': 'text/html' });
+                };
                 response.end("Success", 'utf-8');
               },
               function rejected(reason) {
@@ -93,6 +97,22 @@ http.createServer(function (request, response) {
           },
           function rejected(reason) {
             console.log(reason);
+          }
+        );
+      }
+    } else if (filePath == './registerFromWaitlist') {
+      paramArray = params.split('=');
+
+      if (paramArray[0] === 'regoID') {
+        regoFunction.register(paramArray[1])
+        .then(
+          function fullfilled(result) {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end();
+          },
+          function rejected(reason) {
+            response.writeHead(500, { 'Content-Type': 'text/html' });
+            response.end();
           }
         );
       }

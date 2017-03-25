@@ -71,9 +71,11 @@ sap.ui.jsview("SMADJS.view.registration", {
 			mode: sap.m.ListMode.SingleSelectMaster
     });
 
-		var oButtonWaitlist = new sap.m.ToggleButton({
+		var oButtonWaitlist = new sap.m.Button(
+		this.createId("buttonWaitlistSwitch"),
+		{
 			text:"Waitlist",
-			type:"Default",
+			type:"Emphasized",
 			press:[oController.switchWaitlist,oController]
 		});
 

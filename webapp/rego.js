@@ -136,7 +136,6 @@ module.exports = {
             db.getCollection(key,'regos')
             .then(
               function fullfilled(result) {
-                console.log(result);
                 resolve(result);
               },
               function rejected(reason) {
@@ -198,6 +197,32 @@ module.exports = {
         },
         function rejected(reason) {
           console.log(`Failed reason: ${reason}`);
+          reject(reason);
+        }
+      );
+    });
+  },
+  register: function(id) {
+    return new Promise(function pr(resolve, reject) {
+      var key = {id: +id};
+      db.getRecord(key,'regos')
+      .then(
+        function fullfilled(result) {
+          result.waitlist = false;
+          for (val of result.child) {
+            val.waitlist = false;
+          }
+          db.updateRecord(key,result,'regos')
+          .then(
+            function fullfilled(result) {
+              resolve(result);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        },
+        function rejected(reason) {
           reject(reason);
         }
       );

@@ -14,7 +14,9 @@ sap.ui.jsfragment("SMADJS.view.SubmitFragment", {
 		if (oController.status === 200) {
 			var text2 = "Registration is not complete until you have paid (cost is $80/child for the week). Payment details:\n\n" +
 			"Account Name: CANBERRA BAPTIST CHURCH - SMAD CAMP\nBSB: 062 901\nAccount Number: 1021 7815\nReference: Your child/ren's last name";
-		} else {
+		} else if (oController.status === 201) {
+			text2 = "You will be contacted if a place becomes available.";
+		}	else {
 			text2 = "Please email smadcamp@hotmail.com";
 		}
 
@@ -28,7 +30,15 @@ sap.ui.jsfragment("SMADJS.view.SubmitFragment", {
 			content:[oText2]
 		});
 
-		var title = (oController.status === 200) ? "Registration Successful" : "Registration Error";
+		switch (oController.status) {
+			case 200: title = "Registration Successful";
+				break;
+			case 201: title = "Waitlisted Successfully";
+				break;
+			default: title = "Registration Error";
+				break;
+		};
+		//var title = (oController.status === 200) ? "Registration Successful" : "Registration Error";
 
 		var oSubmitPage = new sap.m.Page({
 			title:title,

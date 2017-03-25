@@ -5,15 +5,15 @@ sap.ui.define([
 	"use strict";
 
   return Controller.extend("SMADJS.controller.registration", {
-    onInit: function() {
-			this._waitlist = false;
+		onInit: function() {
+			if (this._waitlist === null) {
+				this._waitlist = false;
+			}
+			this._childCalled = false;
 
 			this._oApp = this.getView().byId("myApp");
 			this._oPage = this.getView().byId("TablePage");
 
-			this._oChildPage = sap.ui.jsfragment("SMADJS.view.childFragment", this);
-			this._oApp.addPage(this._oChildPage);
-
 			var that = this;
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
@@ -46,64 +46,44 @@ sap.ui.define([
 					}
 				}
 			};
-
-			xhttp.open("POST", "/registrations?waitlist=false", true);
-			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-			xhttp.send();
-
-		},
-		switchWaitlist: function() {
-			var that = this;
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState === 4) {
-					that.status = this.status;
-					if (this.status === 200) {
-						var oModel = new JSONModel({regos: jQuery.parseJSON(this.response)});
-						that.getView().setModel(oModel);
-
-						that.getView().byId("table").bindAggregation("items",{
-							path: "/regos",
-							template: new sap.m.ColumnListItem({
-			        	cells: [
-			          	new sap.m.Text({text:"{parent1/id}"}),
-			          	new sap.m.Text({text:"{parent1/firstName}"}),
-			          	new sap.m.Text({text:"{parent1/lastName}"}),
-									new sap.m.Text({text:"{parent1/mobile}"}),
-									new sap.m.Text({text:"{parent1/email}"}),
-									new sap.m.Text({text:"{parent1/address}"}),
-
-									new sap.m.Text({text:"{parent2/firstName}"}),
-			          	new sap.m.Text({text:"{parent2/lastName}"}),
-									new sap.m.Text({text:"{parent2/mobile}"}),
-									new sap.m.Text({text:"{parent2/email}"})
-			        	]
-			      	})
-						}).attachSelectionChange(that.rowSelection,that);
-					} else {
-						var message = "Submission failed";
-					}
-				}
-			};
-
-			this._waitlist = this._waitlist ? false : true;
-
 			if (this._waitlist) {
 				xhttp.open("POST", "/registrations?waitlist=true", true);
 			} else {
 				xhttp.open("POST", "/registrations?waitlist=false", true);
 			}
-
+			//xhttp.open("POST", "/registrations?waitlist=false", true);
 			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 			xhttp.send();
+
+		},
+		switchWaitlist: function() {
+			this._waitlist = this._waitlist ? false : true;
+
+			var text = this._waitlist ? 'Registered' : 'Waitlist';
+			var button = this.getView().byId("buttonWaitlistSwitch");
+			button.setText(text);
+
+			this.onInit();
 		},
 		backToRegistrations: function() {
 			this._oApp.backToPage(this._oPage.getId());
+			this.onInit();
 		},
 		rowSelection: function(oEvent) {
+			if (this._childCalled === true) {
+				return;
+			}
+			this._childCalled = true;
+
 			var oSelectedItem = oEvent.getParameter("listItem");
 			var sItemId = oSelectedItem.getBindingContext().getProperty("parent1/id");
 			var url = "/registration/" + sItemId;
+
+			if (this._oChildPage) {
+				this._oChildPage.destroy();
+			}
+			this._oChildPage = sap.ui.jsfragment("SMADJS.view.childFragment", this);
+			this._oApp.addPage(this._oChildPage);
 			this._oApp.to(this._oChildPage);
 
 			var that = this;
@@ -112,8 +92,8 @@ sap.ui.define([
 				if (this.readyState === 4) {
 					that.status = this.status;
 					if (this.status === 200) {
-						var childModel = new JSONModel({child: jQuery.parseJSON(this.response)});
-						that._oChildPage.setModel(childModel);
+						that.childModel = new JSONModel({child: jQuery.parseJSON(this.response)});
+						that._oChildPage.setModel(that.childModel);
 
 						sap.ui.getCore().byId("childTable").bindAggregation("items",{
 							path: "/child",
@@ -134,7 +114,7 @@ sap.ui.define([
 									new sap.m.Text({text:"{medication}"})
 			        	]
 			      	})
-						}).attachSelectionChange(that.rowSelection);
+						});
 					} else {
 						var message = "Submission failed";
 					}
@@ -142,6 +122,26 @@ sap.ui.define([
 			};
 
 			xhttp.open("POST", url, true);
+			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xhttp.send();
+		},
+		register: function() {
+			var that = this;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					that.status = this.status;
+					if (this.status === 200) {
+
+					} else {
+
+					}
+				}
+			};
+
+			var id = this.childModel.getProperty("/child/0/id/");
+
+			xhttp.open("POST", `registerFromWaitlist?regoID=${id}`, true);
 			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 			xhttp.send();
 		},

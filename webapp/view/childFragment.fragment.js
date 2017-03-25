@@ -78,8 +78,15 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
 			press:[oController.downloadChild,oController]
 		});
 
+		var oButtonRegister = new sap.m.Button({
+			text:"Register",
+			type:"Emphasized",
+			press:[oController.register,oController],
+			visible:oController._waitlist
+		});
+
 		var oBar = new sap.m.Bar({
-			contentRight:[oButtonDownload]
+			contentRight:[oButtonRegister,oButtonDownload]
 		});
 
     var oChildPage = new sap.m.Page(this.createId("ChildTablePage"),{

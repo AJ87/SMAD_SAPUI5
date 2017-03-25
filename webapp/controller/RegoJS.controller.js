@@ -341,6 +341,12 @@ sap.ui.define([
 							that._oWizardSubmitPage = sap.ui.jsfragment("SMADJS.view.SubmitFragment", that);
 							that._oApp.addPage(that._oWizardSubmitPage);
 							that._oApp.to(that._oWizardSubmitPage);
+						} else if (this.status === 201) {
+							var message = "Successfully registered on waitlist";
+							that.message = message;
+							that._oWizardSubmitPage = sap.ui.jsfragment("SMADJS.view.SubmitFragment", that);
+							that._oApp.addPage(that._oWizardSubmitPage);
+							that._oApp.to(that._oWizardSubmitPage);
 						} else if (this.status === 503) {
 							message = "Registration is full";
 							that._oApp.to(that._oWizardPostRegoPage);
@@ -363,7 +369,9 @@ sap.ui.define([
 				xhttp.send(this.oModel.getJSON());
 			};
 
-			this._handleMessageBoxOpen.call(this,"Are you sure you want to submit this registration?", "confirm", submitCallback);
+			var part = this._waitlist ? ' for waitlist?' : '?';
+			var msg = `Are you sure you want to submit this registration${part}`;
+			this._handleMessageBoxOpen.call(this,msg, "confirm", submitCallback);
 		},
 		handleCancelReview: function() {
 			var cancelCallback = function() {
