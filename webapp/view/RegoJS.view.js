@@ -471,7 +471,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Medical Info",
+						text:"Other Medical Info",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/medicalInfo}";
