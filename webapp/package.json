@@ -2,7 +2,7 @@
     "name": "SMAD_SAPUI5",
     "version": "2.0.0",
     "dependencies": {
-        "mongodb": "^2.2.10",
+        "mongodb": "^3.2.10",
         "nodemailer": "^4.0.1"
     },
     "description": "SMAD holiday program registration site",
