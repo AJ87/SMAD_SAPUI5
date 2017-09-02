@@ -120,11 +120,11 @@ http.createServer(function (request, response) {
     } else if (filePath == './numberOfChildren') {
       paramArray = params.split('=');
 
-      if (paramArray[0] === 'regoID' && paramArray[1] === '5c60cd2892a845da902123ea690ae981') {
+      if (paramArray[0] === 'regoID' && paramArray[1] === '7f74c2b8-1ab6-4221-906b-5c3756132c4e') {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
-        if (regoFunction.getNumberOfChildren() < 5) {
+        if (regoFunction.getNumberOfChildren() < 130) {
           response.writeHead(200, { 'Content-Type': 'text/html' });
           response.end();
         } else {
@@ -244,5 +244,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(3125);
-console.log('Server running at http://127.0.0.1:3125/');
+}).listen(80); //3125 loally and 80 on aws
+console.log('Server running at http://127.0.0.1:80/');
