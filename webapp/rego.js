@@ -1,5 +1,6 @@
 var json2csv = require('./utilities.js');
 var db = require('./database.js');
+var email = require('./email.js');
 
 var currentYear = 2017;
 
@@ -42,6 +43,19 @@ function formatDate(timestamp) {
   day = timestamp.substr(8,2);
 
   return `${day}/${month}/${year}`;
+}
+
+function email_promise(email_address) {
+  email.send_registration_confirmation(email_address)
+  .then(
+    function fullfilled(result) {
+      //do nothing
+    },
+    function rejected(reason) {
+      console.log('Failed to send Email to ', email_address);
+      console.log(reason);
+    }
+  );
 }
 
 module.exports = {
@@ -101,6 +115,8 @@ module.exports = {
           .then(
             function fullfilled(result) {
               console.log(`saved record number ${counter.counter}`);
+              console.log(json.parent1.firstName);
+              email_promise({email:json.parent1.email, firstName:json.parent1.firstName});
               resolve(result);
             },
             function rejected(reason) {
