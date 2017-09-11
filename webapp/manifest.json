@@ -87,7 +87,11 @@
 				"pattern": "registration_view/{id}",
 				"name": "childView",
 				"target": "childView"
-			}],
+			},{
+				"pattern": "colour_view",
+			  "name": "colourView",
+			  "target": "colourViewer"
+				}],
 			"targets": {
 			  "viewer": {
 			    "viewName": "registration",
@@ -95,6 +99,10 @@
 			  },
 				"childView": {
 					"viewName": "child",
+					"transition": "show"
+				},
+				"colourViewer": {
+					"viewName": "colour",
 					"transition": "show"
 				}
 			}

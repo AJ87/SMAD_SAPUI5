@@ -35,6 +35,31 @@ function updateKids() {
   );
 }
 
+function getColour(colour) {
+// get the kids with that colour
+  return new Promise( function pr(resolve,reject) {
+    db.getCollection(null,'regos')
+    .then(
+      function fullfilled(result) {
+        var children = [];
+        for (var rego of result) {
+          for (var child of rego.child) {
+            if (child.colour == colour &&
+                child.recordYear == currentYear &&
+                child.waitlist == false) {
+              children.push(child);
+            }
+          }
+        }
+        resolve(children);
+      },
+      function rejected(reason) {
+        resolve(reason);
+      }
+    );
+  });
+}
+
 function formatDate(timestamp) {
   var year, month, day;
 
@@ -107,6 +132,8 @@ module.exports = {
 // fix the date format
           val.birthdate = formatDate(val.birthdate);
           val.waitlist = waitlist;
+          val.recordYear = currentYear;
+          val.colour = 'unassigned';
         }
 
 // save db with record
@@ -166,10 +193,31 @@ module.exports = {
   getNumberOfChildren: function() {
     return kids.kids;
   },
+  colourGroupDownload: function(colour) {
+    return new Promise( function pr(resolve,reject) {
+      getColour(colour).
+      then(
+        function fullfilled(result) {
+          json2csv.convertColourGroup(result)
+          .then(
+            function fullfilled(csv) {
+              resolve(csv);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        },
+        function rejected(reason) {
+          reject(reason);
+        }
+      );
+    });
+  },
   download: function() {
     return new Promise( function pr(resolve,reject) {
       console.log('Get collection');
-      db.getCollection('regos')
+      db.getCollection(null,'regos')
       .then(
         function fullfilled(result) {
           json2csv.convert(result)
@@ -192,7 +240,7 @@ module.exports = {
   downloadChild: function() {
     return new Promise( function pr(resolve,reject) {
       console.log('Get collection');
-      db.getCollection('regos')
+      db.getCollection(null,'regos')
       .then(
         function fullfilled(result) {
           var children = [];
@@ -256,6 +304,35 @@ module.exports = {
         },
         function rejected(reason) {
           console.log(`email not saved: ${reason}`);
+          resolve(reason);
+        }
+      );
+    });
+  },
+  getColour: getColour,
+  saveColour: function(id,name,colour) {
+// update kids colour
+    return new Promise( function pr(resolve,reject) {
+      var key = {id: +id};
+      db.getRecord(key, 'regos')
+      .then(
+        function fullfilled(result) {
+          for (var child of result.child) {
+            if (child.firstName == name) {
+              child.colour = colour;
+              db.updateRecord(key,result,'regos')
+              .then(
+                function fullfilled(result) {
+                  resolve(result);
+                },
+                function rejected(reason) {
+                  reject(reason);
+                }
+              );
+            }
+          }
+        },
+        function rejected(reason) {
           resolve(reason);
         }
       );

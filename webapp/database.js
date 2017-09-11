@@ -17,6 +17,7 @@ var database = function() {
 
   var _setCollection = function(table) {
     console.log("Set Collection");
+    console.log(`table: ${table}`);
     _collection = _db.collection(table);
   }
 
@@ -99,6 +100,7 @@ var database = function() {
     getCollection: function(key,table) {
       return new Promise( function pr(resolve,reject) {
         console.log("Get Collection");
+        console.log(`get collection: ${table}`);
         _connect(table, _findDocument, key)
         .then(
           function fullfilled(result) {

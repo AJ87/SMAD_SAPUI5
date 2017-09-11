@@ -20,6 +20,7 @@ http.createServer(function (request, response) {
     console.log(params);
 
     var waitlist = false;
+    var paramArray;
 
     if (filePath == './') {
         filePath = './index.html';
@@ -47,7 +48,7 @@ http.createServer(function (request, response) {
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
           } else {
-            var paramArray = params.split('=');
+            paramArray = params.split('=');
             if (paramArray[0] === 'waitlist' && paramArray[1] === 'true') {
               waitlist = true;
             }
@@ -95,6 +96,66 @@ http.createServer(function (request, response) {
           function fullfilled(json) {
             response.writeHead(200, { 'Content-Type': 'application/json' });
             response.end(JSON.stringify(json));
+          },
+          function rejected(reason) {
+            console.log(reason);
+          }
+        );
+      }
+    } else if (filePath.substring(0,9) == './colour/') {
+      var filePathArray = filePath.split('/');
+      regoFunction.getColour(filePathArray[2])
+      .then(
+        function fullfilled(json) {
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify(json));
+        },
+        function rejected(reason) {
+          console.log(reason);
+        }
+      );
+    } else if (filePath.substring(0,22) == './colourgroup/download') {
+      var colourGroup;
+      paramArray = params.split('=');
+      if (paramArray[0] === 'colour') {
+        colourGroup = paramArray[1];
+      }
+      regoFunction.colourGroupDownload(colourGroup)
+      .then(
+        function fullfilled(result) {
+          console.log('Download success');
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end(result, 'utf-8');
+        },
+        function rejected(reason) {
+          console.log('Download failed');
+          response.writeHead(500);
+          response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+        }
+      );
+    } else if (filePath.substring(0,7) == './rego/') {
+      var id, name, colour;
+
+      if (request.method == 'POST') {
+        filePathArray = filePath.split('/');
+        id = filePathArray[2];
+
+        if (filePathArray[3] == 'child') {
+          name = filePathArray[4];
+        }
+
+        paramArray = params.split('=');
+        if (paramArray[0] === 'colour') {
+          colour = paramArray[1];
+        }
+
+        console.log(`id: ${id}, name: ${name}, colour: ${colour}`);
+
+        regoFunction.saveColour(id,name,colour)
+        .then(
+          function fullfilled(result) {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end();
           },
           function rejected(reason) {
             console.log(reason);
@@ -244,5 +305,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(80); //3125 loally and 80 on aws
-console.log('Server running at http://127.0.0.1:80/');
+}).listen(3125); //3125 loally and 80 on aws
+console.log('Server running at http://127.0.0.1:3125/');

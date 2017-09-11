@@ -10,15 +10,17 @@ const fields =
     ['id','firstName','lastName','birthdate','gender','school','year','friend',
      'medicare1','medicare2','medicalInfo','dietaryInfo','medication','waitlist'];
 
+  const colourGroupFields =
+    ['id','firstName','lastName','year'];
+
 function convert(json) {
   return new Promise( function pr(resolve,reject) {
-    console.log('json2csv');
     var data = json2csv({
       data: json,
       fields: fields,
       hasCSVColumnTitle: false
     });
-    console.log(data);
+
     if (data) {
       resolve(data);
     } else {
@@ -34,7 +36,23 @@ function convertChild(json) {
       fields: childFields,
       hasCSVColumnTitle: false
     });
-    console.log(data);
+
+    if (data) {
+      resolve(data);
+    } else {
+      reject('No csv');
+    };
+  });
+}
+
+function convertColourGroup(json) {
+  return new Promise( function pr(resolve,reject) {
+    var data = json2csv({
+      data: json,
+      fields: colourGroupFields,
+      hasCSVColumnTitle: false
+    });
+
     if (data) {
       resolve(data);
     } else {
@@ -45,7 +63,8 @@ function convertChild(json) {
 
 var utility = {
   convert: convert,
-  convertChild: convertChild
+  convertChild: convertChild,
+  convertColourGroup: convertColourGroup
 };
 
 module.exports = utility;
