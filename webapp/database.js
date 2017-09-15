@@ -1,4 +1,4 @@
-var MongoClient = require('mongodb').MongoClient
+var MongoClient = require('mongodb').MongoClient;
 
 // Connection URL
 var url = 'mongodb://localhost:27017/smad_db';
@@ -8,11 +8,11 @@ var database = function() {
   var _collection = null;
 
   var _close_db = function() {
-    console.log("Closing database");
-    if (_db) {
-      _db.close();
-      _db = null;
-    }
+     console.log("Closing database");
+     if (_db) {
+       _db.close();
+       _db = null;
+     }
   }
 
   var _setCollection = function(table) {
@@ -73,9 +73,10 @@ var database = function() {
     return new Promise( function pr(resolve,reject) {
       console.log("Connecting to database...");
       // Use connect method to connect to the database
+
       MongoClient.connect(url, function(err, db) {
         if (err === null) {
-          console.log("Connected successfully to database");
+          console.log('Connected successfully to database');
           _db = db;
           _setCollection(table);
           operation(data)
@@ -88,13 +89,12 @@ var database = function() {
             }
           );
         } else {
-          console.log("Error connecting to database");
-          //throw err;
+          console.log('Error connecting to database');
           reject(err);
         }
       });
     });
-  }
+  };
 
   return {
     getCollection: function(key,table) {

@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var regoFunction = require('./rego.js');
 
-regoFunction.initialise();
+  regoFunction.initialise();
 
 http.createServer(function (request, response) {
     console.log('request starting...');
@@ -105,6 +105,17 @@ http.createServer(function (request, response) {
     } else if (filePath.substring(0,9) == './colour/') {
       var filePathArray = filePath.split('/');
       regoFunction.getColour(filePathArray[2])
+      .then(
+        function fullfilled(json) {
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify(json));
+        },
+        function rejected(reason) {
+          console.log(reason);
+        }
+      );
+    } else if (filePath == './colourgroup/metadata') {
+      regoFunction.getColourGroupMetadata()
       .then(
         function fullfilled(json) {
           response.writeHead(200, { 'Content-Type': 'application/json' });

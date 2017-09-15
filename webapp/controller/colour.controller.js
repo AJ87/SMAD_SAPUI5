@@ -11,33 +11,7 @@ sap.ui.define([
 			this._oDetailPage = this.getView().byId("ColourTablePage");
 			this._oMasterPage = this.getView().byId("ColourMasterPage");
 
-			var colourGroups =
-							[{colour: 'Unassigned'},
-							 {colour: 'Maroon'},
-							 {colour: 'Red'},
-							 {colour: 'Orange'},
-							 {colour: 'Yellow'},
-							 {colour: 'Light Green'},
-							 {colour: 'Dark Green'},
-							 {colour: 'Light Blue'},
-							 {colour: 'Dark Blue'},
-							 {colour: 'Light Purple'},
-							 {colour: 'Dark Purple'},
-						   {colour: 'Light Pink'},
-							 {colour: 'Dark Pink'}];
-
-			var data = JSON.stringify(colourGroups);
-			var oMasterModel = new JSONModel({colours: jQuery.parseJSON(data)});
-
-			this.getView().setModel(oMasterModel,"masterModel");
-			this.getView().byId("masterTable").bindAggregation("items",{
-				path: "masterModel>/colours",
-				template: new sap.m.ColumnListItem({
-					cells: [
-						new sap.m.Text({text:"{masterModel>colour}"})
-					]
-				})
-			}).attachSelectionChange(this.masterRowSelection,this);
+			this.getMasterTableData();
 
 			var that = this;
 			var xhttp = new XMLHttpRequest();
@@ -70,12 +44,42 @@ sap.ui.define([
 			xhttp.send();
 
 		},
+		getMasterTableData: function() {
+			var that = this;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					that.status = this.status;
+					if (this.status === 200) {
+						var oMasterModel = new JSONModel({colours: jQuery.parseJSON(this.response)});
+						that.getView().setModel(oMasterModel,"masterModel");
+
+						that.getView().byId("masterTable").bindAggregation("items",{
+							path: "masterModel>/colours",
+							template: new sap.m.ColumnListItem({
+								cells: [
+									new sap.m.Text({text:"{masterModel>colour}"})
+								]
+							})
+						}).attachSelectionChange(that.masterRowSelection,that);
+					} else {
+						var message = "Submission failed";
+					}
+				}
+			};
+
+			xhttp.open("GET", "/colourgroup/metadata", true);
+			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xhttp.send();
+		},
 		masterRowSelection: function(oEvent) {
 			var oMasterSelectedItem = oEvent.getParameter("listItem");
 			var sItem = oMasterSelectedItem.getBindingContext("masterModel").getProperty("colour");
 			var colour;
 
-			this._oDetailPage.setTitle(`${sItem} Children`);
+			var name = sItem.slice(0,(sItem.indexOf("(")-1));
+
+			this._oDetailPage.setTitle(`${name} Children`);
 
 			colour = this.getColourId(sItem);
 			this._currentColour = colour;
@@ -84,7 +88,12 @@ sap.ui.define([
 		},
 		getColourId: function(data) {
 			var colour;
-			switch (data) {
+			if (data.indexOf("(") > 0) {
+				var name = data.slice(0,(data.indexOf("(")-1));
+			} else {
+				name = data;
+			}
+			switch (name) {
 				case 'Unassigned':
 					colour = 'unassigned';
 					break;
@@ -180,7 +189,6 @@ sap.ui.define([
 		confirm: function(oEvent) {
 			var oSelectedItem = oEvent.getParameters().selectedItem;
 			var sItem = oSelectedItem.getTitle();
-
 			var colour = this.getColourId(sItem);
 
 			var that = this;
@@ -190,6 +198,7 @@ sap.ui.define([
 					that.status = this.status;
 					if (this.status === 200) {
 						that.getColour(that._currentColour);
+						that.getMasterTableData();
 					} else {
 						var message = "Submission failed";
 					}

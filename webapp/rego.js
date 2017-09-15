@@ -51,6 +51,20 @@ function getColour(colour) {
             }
           }
         }
+        children.sort(function(a,b) {
+          var x,y;
+          if (a.year == 'Kindergarten') {
+            x = 0;
+          } else {
+            x = a.year.slice(4);
+          }
+          if (b.year == 'Kindergarten') {
+            y = 0;
+          } else {
+            y = b.year.slice(4);
+          }
+          return x - y;
+        });
         resolve(children);
       },
       function rejected(reason) {
@@ -179,6 +193,9 @@ module.exports = {
             db.getCollection(key,'regos')
             .then(
               function fullfilled(result) {
+                result.sort(function(a,b){
+                  return a.id - b.id;
+                });
                 resolve(result);
               },
               function rejected(reason) {
@@ -310,6 +327,39 @@ module.exports = {
     });
   },
   getColour: getColour,
+  getColourGroupMetadata: function() {
+    return new Promise( function pr(resolve,reject) {
+      var colourArray = [['Unassigned','unassigned'],
+       ['Maroon','maroon'],
+       ['Red','red'],
+       ['Orange','orange'],
+       ['Yellow','yellow'],
+       ['Light Green','lightgreen'],
+       ['Dark Green','darkgreen'],
+       ['Light Blue','lightblue'],
+       ['Dark Blue','darkblue'],
+       ['Light Purple','lightpurple'],
+       ['Dark Purple','darkpurple'],
+       ['Light Pink','lightpink'],
+       ['Dark Pink','darkpink']];
+
+       var promises = colourArray.map(function(x) {
+         return getColour(x[1])
+         .then(
+           function fullfilled(result) {
+             return {colour:`${x[0]} (${result.length})`};
+           },
+           function rejected(reason) {
+             reject(reason);
+           }
+         );
+       });
+
+       Promise.all(promises).then(function fullfilled(results) {
+         resolve(results);
+       });
+    });
+  },
   saveColour: function(id,name,colour) {
 // update kids colour
     return new Promise( function pr(resolve,reject) {
