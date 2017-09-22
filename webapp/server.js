@@ -4,6 +4,9 @@ var fs = require('fs');
 var path = require('path');
 var regoFunction = require('./rego.js');
 
+const max_children = 35;
+const max_regos = 50;
+
   regoFunction.initialise();
 
 http.createServer(function (request, response) {
@@ -43,7 +46,7 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > 170) {
+          if (regoFunction.getNumberOfChildren() > max_regos) {
             console.log("Rego and waitlist already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
@@ -196,7 +199,7 @@ http.createServer(function (request, response) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {
-        if (regoFunction.getNumberOfChildren() < 130) {
+        if (regoFunction.getNumberOfChildren() < max_children) {
           response.writeHead(200, { 'Content-Type': 'text/html' });
           response.end();
         } else {
@@ -316,5 +319,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(3125); //3125 loally and 80 on aws
-console.log('Server running at http://127.0.0.1:3125/');
+}).listen(80); //3125 loally and 80 on aws
+console.log('Server running at http://127.0.0.1:80/');
