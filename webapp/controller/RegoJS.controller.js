@@ -59,7 +59,7 @@ sap.ui.define([
 						}
 					}
 				}
-			} else {
+			}
 
 			var that = this;
 			var xhttp = new XMLHttpRequest();
@@ -79,7 +79,7 @@ sap.ui.define([
 			xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
 			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
 			xhttp.send();
-			}
+			
 		},
 		infoValidation: function() {
 			var firstNameEl = this.getView().byId("InputParent1FirstName");
