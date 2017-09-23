@@ -29,7 +29,8 @@ sap.ui.define([
 			          	new sap.m.Text({text:"{id}"}),
 			          	new sap.m.Text({text:"{firstName}"}),
 			          	new sap.m.Text({text:"{lastName}"}),
-									new sap.m.Text({text:"{year}"})
+									new sap.m.Text({text:"{year}"}),
+									new sap.m.Text({text:"{friend}"})
 			        	]
 			      	})
 						}).attachSelectionChange(that.rowSelection,that);
