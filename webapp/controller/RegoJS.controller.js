@@ -41,45 +41,53 @@ sap.ui.define([
 			this._oApp.addPage(this._oWizardPostRegoPage);
 
 			var oDate = new Date();
+			var preRego = false;
 
 			// for testing - comment out for live
-			oDate = new Date("September 22, 2017 10:00:00");
+			//oDate = new Date("September 22, 2017 10:00:00");
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
 			if (year < 2018) { // year of SMAD camp
 				if (oDate.getMonth() < 9) { // October - months start from 0
 					this._oApp.to(this._oWizardPreRegoPage);
+					preRego = true;
 				} else {
 					if (oDate.getMonth() === 9 && oDate.getDate() < 14) { //day of month
 						this._oApp.to(this._oWizardPreRegoPage);
+						preRego = true;
 					} else {
 						if (oDate.getDate() === 14 && oDate.getHours() < 10) {
 							this._oApp.to(this._oWizardPreRegoPage);
+							preRego = true;
 						}
 					}
 				}
 			}
 
-			var that = this;
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState === 4) {
-					if (this.status === 200) {
+			if (preRego == false) {
 
-					} else {
-						var message = "Registration full";
-						that._oApp.to(that._oWizardPostRegoPage);
+				var that = this;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState === 4) {
+						if (this.status === 200) {
+
+						} else {
+							var message = "Registration full";
+							that._oApp.to(that._oWizardPostRegoPage);
+						}
 					}
-				}
-			};
+				};
 
-			var sValue = jQuery.sap.getUriParameters().get("regoID");
+				var sValue = jQuery.sap.getUriParameters().get("regoID");
 
-			xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
-			xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
-			xhttp.send();
-			
+				xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
+				xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
+				xhttp.send();
+
+			}
+
 		},
 		infoValidation: function() {
 			var firstNameEl = this.getView().byId("InputParent1FirstName");
