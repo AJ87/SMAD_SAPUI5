@@ -11,7 +11,7 @@ const fields =
      'medicare1','medicare2','medicalInfo','dietaryInfo','medication','waitlist'];
 
   const colourGroupFields =
-    ['id','firstName','lastName','year'];
+    ['id','firstName','lastName','year','friend'];
 
 function convert(json) {
   return new Promise( function pr(resolve,reject) {

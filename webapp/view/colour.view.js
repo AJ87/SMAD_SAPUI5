@@ -36,6 +36,11 @@ sap.ui.jsview("SMADJS.view.colour", {
     });
     columns.push(oColumn);
 
+		oColumn = new sap.m.Column({
+      header: new sap.m.Text({text:"Friend Request"})
+    });
+    columns.push(oColumn);
+
     var oTable = new sap.m.Table(this.createId("table"), {
       columns: columns,
 			mode: sap.m.ListMode.SingleSelectMaster
