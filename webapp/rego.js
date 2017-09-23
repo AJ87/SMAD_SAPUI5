@@ -208,6 +208,7 @@ module.exports = {
     };
   },
   getNumberOfChildren: function() {
+    console.log(`kids: ${kids.kids}`);
     return kids.kids;
   },
   colourGroupDownload: function(colour) {

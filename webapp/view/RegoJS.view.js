@@ -208,7 +208,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						required:true
 					});
 					var minDate = new Date(2004,0,1);
-					var maxDate = new Date(2012,11,31);
+					var maxDate = new Date(2013,11,31);
 					bindValue = "{/child/" + arrayNumber + "/birthdate}";
 					oChildInput = new sap.m.DatePicker(oView.createId("InputChildBirthdate" + counter),{
 						change:[oController.childValidation,oController],
@@ -260,7 +260,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Year (beginning February 2017)",
+						text:"Year (beginning February 2018)",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/year}";
@@ -310,11 +310,20 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						selectedKey:bindValue,
 						valueStateText:"Required",
 						items:[{
-							key:"4",
-							text:"4"
-						},{
 							key:"6",
 							text:"6"
+						},{
+							key:"8",
+							text:"8"
+						},{
+							key:"10",
+							text:"10"
+						},{
+							key:"12",
+							text:"12"
+						},{
+							key:"14",
+							text:"14"
 						}]
 					});
 					oChildForm.addContent(oChildLabel);
@@ -401,7 +410,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 
 					oChildLabel = new sap.m.Label({
 						text:"Food Allergies (select all that apply)",
-						required:true
+						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/allergy-egg}";
 					oChildInput = new sap.m.CheckBox(oView.createId("InputChildAllergy-Egg" + counter),{
