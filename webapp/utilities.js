@@ -8,7 +8,8 @@ const fields =
 
   const childFields =
     ['id','firstName','lastName','birthdate','gender','school','year','friend',
-     'medicare1','medicare2','medicalInfo','dietaryInfo','medication','waitlist'];
+     'medicare1','medicare2','asthma','epipen','allergy-egg','allergy-nuts',
+     'allergy-gluten','allergy-lactose','allergy-other','medication-yes','medicalInfo','waitlist'];
 
   const colourGroupFields =
     ['id','firstName','lastName','year','friend'];

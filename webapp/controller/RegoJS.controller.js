@@ -40,11 +40,14 @@ sap.ui.define([
 			this._oWizardPostRegoPage = sap.ui.jsfragment("SMADJS.view.PostRegoFragment", this);
 			this._oApp.addPage(this._oWizardPostRegoPage);
 
+			this._oWizardWaitlistFullPage = sap.ui.jsfragment("SMADJS.view.WaitlistFullFragment", this);
+			this._oApp.addPage(this._oWizardWaitlistFullPage);
+
 			var oDate = new Date();
 			var preRego = false;
 
 			// for testing - comment out for live
-			//oDate = new Date("September 22, 2017 10:00:00");
+			oDate = new Date("October 14, 2017 10:00:00");
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
@@ -73,6 +76,9 @@ sap.ui.define([
 					if (this.readyState === 4) {
 						if (this.status === 200) {
 
+						} else if (this.status === 503) {
+							var message = "Registration and waitlist full";
+							that._oApp.to(that._oWizardWaitlistFullPage);
 						} else {
 							var message = "Registration full";
 							that._oApp.to(that._oWizardPostRegoPage);
@@ -357,7 +363,7 @@ sap.ui.define([
 							that._oApp.to(that._oWizardSubmitPage);
 						} else if (this.status === 503) {
 							message = "Registration is full";
-							that._oApp.to(that._oWizardPostRegoPage);
+							that._oApp.to(that._oWizardWaitlistFullPage);
 						} else {
 							message = "Submission failed";
 							that.message = message;

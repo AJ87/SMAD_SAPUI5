@@ -39,7 +39,7 @@ function send_registration_confirmation(data) {
     let mailOptions = {
         from: '"SMAD Camp" <smadcamp@hotmail.com>', // sender address
         to: email_address,
-        subject: 'SMAD CAMP Registration **TEST EMAIL ONLY**', // Subject line
+        subject: 'SMAD CAMP Registration', // Subject line
         //text: 'This is a test email sent from the SMAD server via my gmail account/n/nThanks,/nAndrew', // plain text body
         html: htmlText
     };

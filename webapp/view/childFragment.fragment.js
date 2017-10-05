@@ -54,12 +54,17 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
     columns.push(oColumn);
 
 		oColumn = new sap.m.Column({
-      header: new sap.m.Text({text:"Medical Info"})
+      header: new sap.m.Text({text:"Asthma"})
+    });
+    columns.push(oColumn);
+
+		oColumn = new sap.m.Column({
+      header: new sap.m.Text({text:"Epipen"})
     });
     columns.push(oColumn);
 
     oColumn = new sap.m.Column({
-      header: new sap.m.Text({text:"Dietary Info"})
+      header: new sap.m.Text({text:"Allergies"})
     });
     columns.push(oColumn);
 
@@ -67,6 +72,11 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
       header: new sap.m.Text({text:"Medication"})
     });
     columns.push(oColumn);
+
+		oColumn = new sap.m.Column({
+			header: new sap.m.Text({text:"Medical Info"})
+		});
+		columns.push(oColumn);
 
     var oTable = new sap.m.Table(this.createId("childTable"), {
       columns: columns,

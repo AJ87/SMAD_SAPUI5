@@ -4,8 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var regoFunction = require('./rego.js');
 
-const max_children = 35;
-const max_regos = 50;
+const max_children = 30; // 130
+const max_regos = 35; // 170
 
   regoFunction.initialise();
 
@@ -202,7 +202,12 @@ http.createServer(function (request, response) {
         if (regoFunction.getNumberOfChildren() < max_children) {
           response.writeHead(200, { 'Content-Type': 'text/html' });
           response.end();
+        } else if (regoFunction.getNumberOfChildren() > max_regos) {
+          // waitlist already full - accept no new regos
+          response.writeHead(503, { 'Content-Type': 'text/html' });
+          response.end();
         } else {
+          // rego full but still accepting regos on waitlist
           response.writeHead(500, { 'Content-Type': 'text/html' });
           response.end();
         }
@@ -319,5 +324,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(80); //3125 loally and 80 on aws
-console.log('Server running at http://127.0.0.1:80/');
+}).listen(3125); //3125 loally and 80 on aws
+console.log('Server running at http://127.0.0.1:3125/');

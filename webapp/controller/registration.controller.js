@@ -92,7 +92,31 @@ sap.ui.define([
 				if (this.readyState === 4) {
 					that.status = this.status;
 					if (this.status === 200) {
-						that.childModel = new JSONModel({child: jQuery.parseJSON(this.response)});
+						var childData = jQuery.parseJSON(this.response);
+
+						for (var child of childData) {
+							console.log(child);
+							var allergyList = '';
+							if (child["allergy-egg"]) {
+								allergyList = allergyList + 'Egg, ';
+							}
+							if (child["allergy-nuts"]) {
+								allergyList = allergyList + 'Nuts, ';
+							}
+							if (child["allergy-gluten"]) {
+								allergyList = allergyList + 'Gluten, ';
+							}
+							if (child["allergy-lactose"]) {
+								allergyList = allergyList + 'Lactose, ';
+							}
+							if (child["allergy-other"]) {
+								allergyList = allergyList + child["allergy-other"] + ', ';
+							}
+							console.log(allergyList);
+							child.allergies = allergyList.slice(0,(allergyList.length - 2));
+						}
+
+						that.childModel = new JSONModel({child: childData});
 						that._oChildPage.setModel(that.childModel);
 
 						sap.ui.getCore().byId("childTable").bindAggregation("items",{
@@ -109,9 +133,11 @@ sap.ui.define([
 			          	new sap.m.Text({text:"{friend}"}),
 									new sap.m.Text({text:"{medicare1}"}),
 									new sap.m.Text({text:"{medicare2}"}),
-									new sap.m.Text({text:"{medicalInfo}"}),
-									new sap.m.Text({text:"{dietaryInfo}"}),
-									new sap.m.Text({text:"{medication}"})
+									new sap.m.Text({text:"{asthma}"}),
+									new sap.m.Text({text:"{epipen}"}),
+									new sap.m.Text({text:"{allergies}"}),
+									new sap.m.Text({text:"{medication-yes}"}),
+									new sap.m.Text({text:"{medicalInfo}"})
 			        	]
 			      	})
 						});

@@ -415,7 +415,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					bindValue = "{/child/" + arrayNumber + "/allergy-egg}";
 					oChildInput = new sap.m.CheckBox(oView.createId("InputChildAllergy-Egg" + counter),{
 						change:[oController.childValidation,oController],
-						name: bindValue,
+						selected: bindValue,
 						text: "Egg"
 					});
 					oChildForm.addContent(oChildLabel);
@@ -423,21 +423,21 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					bindValue = "{/child/" + arrayNumber + "/allergy-nuts}";
 					oChildInput = new sap.m.CheckBox(oView.createId("InputChildAllergy-Nuts" + counter),{
 						change:[oController.childValidation,oController],
-						name: bindValue,
+						selected: bindValue,
 						text: "Nuts"
 					});
 					oChildForm.addContent(oChildInput);
 					bindValue = "{/child/" + arrayNumber + "/allergy-gluten}";
 					oChildInput = new sap.m.CheckBox(oView.createId("InputChildAllergy-Gluten" + counter),{
 						change:[oController.childValidation,oController],
-						name: bindValue,
+						selected: bindValue,
 						text: "Gluten"
 					});
 					oChildForm.addContent(oChildInput);
 					bindValue = "{/child/" + arrayNumber + "/allergy-lactose}";
 					oChildInput = new sap.m.CheckBox(oView.createId("InputChildAllergy-Lactose" + counter),{
 						change:[oController.childValidation,oController],
-						name: bindValue,
+						selected: bindValue,
 						text: "Lactose"
 					});
 					oChildForm.addContent(oChildInput);
@@ -456,25 +456,13 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 
 					oChildLabel = new sap.m.Label({
 						text:"Medication (taken between 9am-3pm)",
-						required:true
-					});
-					bindValue = "{/child/" + arrayNumber + "/medication-no}";
-					oChildInput = new sap.m.CheckBox(oView.createId("InputChildMedication-No" + counter),{
-						change:[oController.childValidation,oController],
-						name: bindValue,
-						text: "No"
-					});
-					oChildForm.addContent(oChildLabel);
-					oChildForm.addContent(oChildInput);
-					oChildLabel = new sap.m.Label({
-						text:"",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/medication-yes}";
 					oChildInput = new sap.m.Input(oView.createId("InputChildMedication-Yes" + counter),{
 						liveChange:[oController.childValidation,oController],
 						value: bindValue,
-						placeholder: "Yes: med1, med2, ..."
+						placeholder: "Med1, med2, ..."
 					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
