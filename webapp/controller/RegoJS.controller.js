@@ -47,7 +47,7 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			oDate = new Date("October 14, 2017 10:00:00");
+			//oDate = new Date("October 14, 2017 10:00:00");
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900

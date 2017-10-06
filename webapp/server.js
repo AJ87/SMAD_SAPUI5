@@ -4,8 +4,8 @@ var fs = require('fs');
 var path = require('path');
 var regoFunction = require('./rego.js');
 
-const max_children = 30; // 130
-const max_regos = 35; // 170
+const max_children = 130; // 130
+const max_regos = 170; // 170
 
   regoFunction.initialise();
 
@@ -324,5 +324,5 @@ http.createServer(function (request, response) {
 
     }
 
-}).listen(3125); //3125 loally and 80 on aws
-console.log('Server running at http://127.0.0.1:3125/');
+}).listen(80); //3125 loally and 80 on aws
+console.log('Server running at http://127.0.0.1:80/');
