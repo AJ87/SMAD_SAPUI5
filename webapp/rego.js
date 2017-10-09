@@ -1,5 +1,4 @@
 var json2csv = require('./utilities.js');
-var db = require('./database.js');
 var email = require('./email.js');
 
 var currentYear = 2018; // year SMAD Camp will be held
@@ -8,6 +7,8 @@ var counter = {id:'counter',
                counter:0};
 var kids = {id:'kids',
             kids:0};
+
+var db;
 
 function updateCounter() {
 // update counter on db
@@ -98,7 +99,10 @@ function email_promise(email_address) {
 }
 
 module.exports = {
-  initialise: function() {
+  initialise: function(_db) {
+    db = _db;
+
+    email.initialise(db);
 // set counter and kids from db
     db.getRecord({id:'counter'},'config')
     .then(

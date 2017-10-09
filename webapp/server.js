@@ -2,16 +2,21 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var database = require('./database.js');
 var regoFunction = require('./rego.js');
 
 const max_children = 130; // 130
 const max_regos = 170; // 170
 
-  regoFunction.initialise();
+database.initialise()
+.then(
+  function fullfilled(result) {
+
+  regoFunction.initialise(database);
 
 http.createServer(function (request, response) {
     console.log('request starting...');
-    console.log(request.url);
+    console.log(`URL: ${request.url}`);
 
     var filePath = '.' + request.url;
 
@@ -19,8 +24,8 @@ http.createServer(function (request, response) {
     var params = filePath[1];
     filePath = filePath[0];
 
-    console.log(filePath);
-    console.log(params);
+    console.log(`File path: ${filePath}`);
+    console.log(`Params: ${params}`);
 
     var waitlist = false;
     var paramArray;
@@ -326,3 +331,9 @@ http.createServer(function (request, response) {
 
 }).listen(80); //3125 loally and 80 on aws
 console.log('Server running at http://127.0.0.1:80/');
+
+},
+function rejected(reason) {
+  console.log(`Error initialising database: ${reason}`);
+}
+);

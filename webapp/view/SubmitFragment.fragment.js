@@ -12,7 +12,7 @@ sap.ui.jsfragment("SMADJS.view.SubmitFragment", {
 		});
 
 		if (oController.status === 200) {
-			var text2 = "Congratulations you are now registered. You have one week to pay or we may give your spot away (cost is $80/child for the week). Payment details:\n\n" +
+			var text2 = "Congratulations you are now registered. Please pay within the week or your spot may be offered to another family. Cost is $80/child for the week. Payment details:\n\n" +
 			"Account Name: CANBERRA BAPTIST CHURCH - SMAD CAMP\nBSB: 062 901\nAccount Number: 1021 7815\nReference: Your child/ren's last name" +
 			"\n\nYou will receive an email in the next 24 hours. Please do not contact SMAD CAMP before then.";
 		} else if (oController.status === 201) {
