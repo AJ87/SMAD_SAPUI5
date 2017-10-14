@@ -43,6 +43,11 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
     });
     columns.push(oColumn);
 
+		oColumn = new sap.m.Column({
+      header: new sap.m.Text({text:"Shirt Size"})
+    });
+    columns.push(oColumn);
+
     oColumn = new sap.m.Column({
       header: new sap.m.Text({text:"Medicare Card"})
     });
@@ -95,8 +100,15 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
 			visible:oController._waitlist
 		});
 
+		var oButtonUnregister = new sap.m.Button({
+			text:"Unregister",
+			type:"Emphasized",
+			press:[oController.unregister,oController],
+			visible:!oController._waitlist
+		});
+
 		var oBar = new sap.m.Bar({
-			contentRight:[oButtonRegister,oButtonDownload]
+			contentRight:[oButtonUnregister,oButtonRegister,oButtonDownload]
 		});
 
     var oChildPage = new sap.m.Page(this.createId("ChildTablePage"),{

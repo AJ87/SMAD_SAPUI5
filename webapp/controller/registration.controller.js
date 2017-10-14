@@ -131,6 +131,7 @@ sap.ui.define([
 									new sap.m.Text({text:"{school}"}),
 									new sap.m.Text({text:"{year}"}),
 			          	new sap.m.Text({text:"{friend}"}),
+									new sap.m.Text({text:"{shirt}"}),
 									new sap.m.Text({text:"{medicare1}"}),
 									new sap.m.Text({text:"{medicare2}"}),
 									new sap.m.Text({text:"{asthma}"}),
@@ -168,6 +169,26 @@ sap.ui.define([
 			var id = this.childModel.getProperty("/child/0/id/");
 
 			xhttp.open("POST", `registerFromWaitlist?regoID=${id}`, true);
+			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xhttp.send();
+		},
+		unregister: function() {
+			var that = this;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === 4) {
+					that.status = this.status;
+					if (this.status === 200) {
+
+					} else {
+
+					}
+				}
+			};
+
+			var id = this.childModel.getProperty("/child/0/id/");
+
+			xhttp.open("POST", `unregister?regoID=${id}`, true);
 			xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 			xhttp.send();
 		},

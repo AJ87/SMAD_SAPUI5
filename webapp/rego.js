@@ -314,6 +314,32 @@ module.exports = {
       );
     });
   },
+  unregister: function(id) {
+    return new Promise(function pr(resolve, reject) {
+      var key = {id: +id};
+      db.getRecord(key,'regos')
+      .then(
+        function fullfilled(result) {
+          result.waitlist = true;
+          for (val of result.child) {
+            val.waitlist = true;
+          }
+          db.updateRecord(key,result,'regos')
+          .then(
+            function fullfilled(result) {
+              resolve(result);
+            },
+            function rejected(reason) {
+              reject(reason);
+            }
+          );
+        },
+        function rejected(reason) {
+          reject(reason);
+        }
+      );
+    });
+  },
   saveEmail: function(json) {
 // save to db
     return new Promise( function pr(resolve,reject) {

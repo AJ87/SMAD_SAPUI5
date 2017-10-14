@@ -197,6 +197,22 @@ http.createServer(function (request, response) {
           }
         );
       }
+    } else if (filePath == './unregister') {
+      paramArray = params.split('=');
+
+      if (paramArray[0] === 'regoID') {
+        regoFunction.unregister(paramArray[1])
+        .then(
+          function fullfilled(result) {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end();
+          },
+          function rejected(reason) {
+            response.writeHead(500, { 'Content-Type': 'text/html' });
+            response.end();
+          }
+        );
+      }
     } else if (filePath == './numberOfChildren') {
       paramArray = params.split('=');
 
