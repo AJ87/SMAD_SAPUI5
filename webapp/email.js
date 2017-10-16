@@ -1,18 +1,8 @@
 'use strict';
-const nodemailer = require('nodemailer');
 
 var password;
 var reminderError;
 var colourReminderError;
-
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-        user: 'smadcamp@hotmail.com',
-        pass: password
-    }
-});
 
 function send_registration_confirmation(data) {
   var email_address = data.email;
@@ -24,24 +14,7 @@ function send_registration_confirmation(data) {
     //email function is not currently working so just reject
     reject(email_address);
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"SMAD Camp" <smadcamp@hotmail.com>', // sender address
-        to: email_address,
-        subject: 'SMAD CAMP Registration', // Subject line
-        //text: 'This is a test email sent from the SMAD server via my gmail account/n/nThanks,/nAndrew', // plain text body
-        html: htmlText
-    };
 
-    //send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            reject(error);
-            return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        resolve();
-    });
   });
 }
 
@@ -55,23 +28,6 @@ function send_reminder(data) {
 
     reject(email_address);
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"SMAD Camp" <smadcamp@hotmail.com>', // sender address
-        to: email_address,
-        subject: 'SMAD CAMP Registration Reminder', // Subject line
-        html: htmlText
-    };
-
-    //send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        resolve();
-    });
 
   });
 }
@@ -160,21 +116,6 @@ var htmlText = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" 
 
     reject(email_address);
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-        from: '"SMAD Camp" <smadcamp@hotmail.com>', // sender address
-        to: email_address,
-        subject: 'SMAD CAMP 2018', // Subject line
-        html: htmlText
-    };
-
-    //send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-    });
 
   });
 

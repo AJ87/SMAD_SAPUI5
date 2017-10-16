@@ -5,8 +5,9 @@ var path = require('path');
 var database = require('./database.js');
 var regoFunction = require('./rego.js');
 
-const max_children = 130; // 130
+const max_children = 120; // 120
 const max_regos = 170; // 170
+const overrideCode = '7f74c2b8-1ab6-4221-906b-5c3756132c4e';
 
 database.initialise()
 .then(
@@ -26,6 +27,18 @@ http.createServer(function (request, response) {
 
     console.log(`File path: ${filePath}`);
     console.log(`Params: ${params}`);
+
+// check for regoID param
+    var override = false;
+    if (params !== undefined) {
+      var paramArray = params.split('&');
+      if (paramArray.length > 1) {
+        params = paramArray[0];
+        if (paramArray[1] === `regoID=${overrideCode}`) {
+           override = true;
+        }
+      }
+    }
 
     var waitlist = false;
     var paramArray;
@@ -51,7 +64,8 @@ http.createServer(function (request, response) {
           var json = JSON.parse(body);
           console.log(json);
 
-          if (regoFunction.getNumberOfChildren() > max_regos) {
+          if (regoFunction.getNumberOfChildren() > max_regos &&
+              override === false) {
             console.log("Rego and waitlist already full. Above was not saved");
             response.writeHead(503, { 'Content-Type': 'text/html' });
             response.end("Registration full", 'utf-8');
@@ -115,6 +129,7 @@ http.createServer(function (request, response) {
       regoFunction.getColour(filePathArray[2])
       .then(
         function fullfilled(json) {
+          console.log(JSON.stringify(json));
           response.writeHead(200, { 'Content-Type': 'application/json' });
           response.end(JSON.stringify(json));
         },
@@ -216,7 +231,7 @@ http.createServer(function (request, response) {
     } else if (filePath == './numberOfChildren') {
       paramArray = params.split('=');
 
-      if (paramArray[0] === 'regoID' && paramArray[1] === '7f74c2b8-1ab6-4221-906b-5c3756132c4e') {
+      if (paramArray[0] === 'regoID' && paramArray[1] === overrideCode) {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end();
       } else {

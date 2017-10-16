@@ -86,9 +86,9 @@ sap.ui.define([
 					}
 				};
 
-				var sValue = jQuery.sap.getUriParameters().get("regoID");
+				this._sValue = jQuery.sap.getUriParameters().get("regoID");
 
-				xhttp.open("GET", "/numberOfChildren?regoID=" + sValue, true);
+				xhttp.open("GET", "/numberOfChildren?regoID=" + this._sValue, true);
 				xhttp.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
 				xhttp.send();
 
@@ -375,9 +375,9 @@ sap.ui.define([
 				};
 
 				if (this._waitlist) {
-					xhttp.open("POST", "/rego?waitlist=true", true);
+					xhttp.open("POST", `/rego?waitlist=true&regoID=${this._sValue}`, true);
 				} else {
-					xhttp.open("POST", "/rego?waitlist=false", true);
+					xhttp.open("POST", `/rego?waitlist=false&regoID=${this._sValue}`, true);
 				}
 				xhttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 				xhttp.send(this.oModel.getJSON());

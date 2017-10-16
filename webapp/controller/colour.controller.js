@@ -21,6 +21,7 @@ sap.ui.define([
 					if (this.status === 200) {
 						var oModel = new JSONModel({regos: jQuery.parseJSON(this.response)});
 						that.getView().setModel(oModel);
+						oModel.setSizeLimit(500);
 
 						that.getView().byId("table").bindAggregation("items",{
 							path: "/regos",
@@ -148,6 +149,8 @@ sap.ui.define([
 					that.status = this.status;
 					if (this.status === 200) {
 
+						console.log(jQuery.parseJSON(this.response));
+
 						var oModel = new JSONModel({regos: jQuery.parseJSON(this.response)});
 						that.getView().setModel(oModel);
 
@@ -158,7 +161,8 @@ sap.ui.define([
 									new sap.m.Text({text:"{id}"}),
 									new sap.m.Text({text:"{firstName}"}),
 									new sap.m.Text({text:"{lastName}"}),
-									new sap.m.Text({text:"{year}"})
+									new sap.m.Text({text:"{year}"}),
+									new sap.m.Text({text:"{friend}"})
 								]
 							})
 						}).attachSelectionChange(that.rowSelection,that);
