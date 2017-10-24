@@ -32,6 +32,9 @@ function emailer(rego,list) {
       new_list.shift();
       emailer(next_rego,new_list);
     }
+  } else {
+    console.log('Finished Processing');
+    process.exit(0);
   }
 }
 
@@ -51,5 +54,14 @@ var call = function() {
   );
 }
 
-// put in a wait so email.js will have password before we call below
-setTimeout(call, 2000);
+db.initialise()
+.then(
+  function fullfilled(result) {
+    email_sender.initialise(db);
+    // put in a wait so email.js will have password before we call below
+    setTimeout(call, 2000);
+  },
+  function rejected(reason) {
+    console.log(`Could not initialise DB: ${reason}`);
+  }
+)
