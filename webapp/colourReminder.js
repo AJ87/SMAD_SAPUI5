@@ -10,6 +10,7 @@ function emailer(rego,list) {
 
       email_sender.send_pre_smad_email(
         {email:rego.parent1.email,
+         name:rego.parent1.firstName,
          children:rego.child})
       .then(
         function fullfilled(result) {
