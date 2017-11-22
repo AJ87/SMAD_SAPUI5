@@ -176,6 +176,8 @@ http.createServer(function (request, response) {
 
         if (filePathArray[3] == 'child') {
           name = filePathArray[4];
+          // convert %20 into space
+          name = name.replace(/%20/g, " ");
         }
 
         paramArray = params.split('=');
