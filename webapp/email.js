@@ -126,10 +126,10 @@ var htmlText = `'<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN"
   return new Promise( function pr(resolve,reject) {
 
 // for testing on my computer
-//  var cmd = `/Users/AJ87/emails/createemail.sh ${from_email} ${email_address} ${subject} ${htmlText}`;
+  var cmd = `/Users/AJ87/emails/createemail.sh ${from_email} ${email_address} ${subject} ${htmlText}`;
 
 // for aws server
-    var cmd = `/var/www/html/SMAD_OpenUI5/webapp/createemail.sh ${from_email} ${email_address} ${subject} ${htmlText}`;
+//    var cmd = `/var/www/html/SMAD_OpenUI5/webapp/createemail.sh ${from_email} ${email_address} ${subject} ${htmlText}`;
 
     exec(cmd, function(err,stdout,stderr) {
       if (err) {

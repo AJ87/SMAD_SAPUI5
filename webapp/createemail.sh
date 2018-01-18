@@ -4,9 +4,9 @@ FROM=$1
 TO=$2
 SUBJECT=$3
 #test location
-#LOCATION=/Users/AJ87/emails
+LOCATION=/Users/AJ87/emails
 #aws server location
-LOCATION=/var/www/html/emails
+#LOCATION=/var/www/html/emails
 FILE2=$LOCATION/emails/${TO}.txt
 APOSTROPHE="'"
 BODY="${4//0x27/$APOSTROPHE}"

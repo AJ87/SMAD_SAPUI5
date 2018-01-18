@@ -18,10 +18,10 @@ const fields =
       '"Medicare Number","Medicare No. on Card","Asthma","Epipen","Egg","Nuts","Gluten","Lactose","Other","Medication","Extra","Waitlist"\n';
 
   const colourGroupFields =
-    ['id','firstName','lastName','year','friend','medicare1','medicare2','asthma','epipen','allergy-egg','allergy-nuts',
+    ['id','firstName','lastName','year','school','shirt','asthma','epipen','allergy-egg','allergy-nuts',
     'allergy-gluten','allergy-lactose','allergy-other','medication-yes','medicalInfo'];
 
-  const colourHeading = '"ID","First Name","Last Name","Year","Friend","Medicare Number","Medicare No. on Card","Asthma","Epipen","Egg","Nuts","Gluten","Lactose","Other","Medication","Extra"\n';
+  const colourHeading = '"ID","First Name","Last Name","Year","School","Shirt Size","Asthma","Epipen","Egg","Nuts","Gluten","Lactose","Other","Medication","Extra"\n';
 
 function convert(json) {
   return new Promise( function pr(resolve,reject) {

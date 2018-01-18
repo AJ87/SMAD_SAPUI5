@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # test folder
-#cd /Users/AJ87/emails/emails || exit
+cd /Users/AJ87/emails/emails || exit
 # aws server folder
-cd /var/www/html/emails/emails || exit
+#cd /var/www/html/emails/emails || exit
 
 for f in *.txt;
 do
