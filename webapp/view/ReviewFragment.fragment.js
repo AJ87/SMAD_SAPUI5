@@ -170,6 +170,16 @@ sap.ui.jsfragment("SMADJS.view.ReviewFragment", {
 			oSimpleForm.addContent(oText);
 
 			oLabel = new sap.m.Label({
+				text:"Preferred Name"
+			});
+			bindValue = "{/child/" + i + "/preferredName}";
+			oText = new sap.m.Text(this.createId("ChildPreferredName" + i),{
+				text:bindValue
+			});
+			oSimpleForm.addContent(oLabel);
+			oSimpleForm.addContent(oText);
+
+			oLabel = new sap.m.Label({
 				text:"Birthdate"
 			});
 			bindValue = "/child/" + i + "/birthdate";

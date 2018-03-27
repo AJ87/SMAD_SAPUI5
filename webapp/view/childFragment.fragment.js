@@ -19,6 +19,11 @@ sap.ui.jsfragment("SMADJS.view.childFragment", {
     columns.push(oColumn);
 
 		oColumn = new sap.m.Column({
+			header: new sap.m.Text({text:"Preferred Name"})
+		});
+		columns.push(oColumn);
+
+		oColumn = new sap.m.Column({
       header: new sap.m.Text({text:"Birthdate"})
     });
     columns.push(oColumn);

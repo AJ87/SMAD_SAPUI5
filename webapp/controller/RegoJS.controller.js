@@ -47,7 +47,7 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			//oDate = new Date("October 15, 2017 10:00:00");
+			oDate = new Date("October 15, 2018 10:00:00");
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
@@ -146,6 +146,14 @@ sap.ui.define([
 				var lastName = lastNameEl.getValue();
 				this.setValueState(this.validateText(lastName), lastNameEl);
 				if (!(this.validateText(lastName))) {
+					valid = false;
+				}
+
+				//preferred name
+				var preferredNameEl = this.getView().byId("InputChildPreferredName" + cId.slice(-1));
+				var preferredName = preferredNameEl.getValue();
+				this.setValueState(this.validateText(preferredName), preferredNameEl);
+				if (!(this.validateText(preferredName))) {
 					valid = false;
 				}
 

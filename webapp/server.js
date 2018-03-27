@@ -5,9 +5,15 @@ var path = require('path');
 var database = require('./database.js');
 var regoFunction = require('./rego.js');
 
-const max_children = 120; // 120
-const max_regos = 170; // 170
+const max_children = 240; // 120
+const max_regos = 240; // 170
 const overrideCode = '7f74c2b8-1ab6-4221-906b-5c3756132c4e';
+
+var toLocalDate = function(utcDate) {
+  var TZOffsetMs = 15*60*60*1000;
+  var localDate = utcDate.getTime() + TZOffsetMs;
+  return new Date(localDate);
+}
 
 database.initialise()
 .then(
@@ -63,6 +69,12 @@ http.createServer(function (request, response) {
         }).on('end', function() {
           var json = JSON.parse(body);
           console.log(json);
+          console.log(json.child[0].birthdate);
+          for (var child of json.child) {
+            var newDate = toLocalDate(new Date(child.birthdate));
+            console.log(newDate);
+            child.birthdate = newDate.toJSON();
+          }
 
           if (regoFunction.getNumberOfChildren() > max_regos &&
               override === false) {
@@ -374,7 +386,7 @@ http.createServer(function (request, response) {
       }
     }
 
-}).listen(80); //3125 loally and 80 on aws
+}).listen(3125); //3125 loally and 80 on aws
 console.log('Server running at http://127.0.0.1:80/');
 
 },

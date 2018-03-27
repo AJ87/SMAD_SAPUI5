@@ -1,7 +1,7 @@
 var json2csv = require('./utilities.js');
 var email = require('./email.js');
 
-var currentYear = 2018; // year SMAD Camp will be held
+var currentYear = 2019; // year SMAD Camp will be held
 
 var counter = {id:'counter',
                counter:0};

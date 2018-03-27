@@ -204,6 +204,19 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
+						text:"Preferred Name (for name tag)",
+						required:true
+					});
+					bindValue = "{/child/" + arrayNumber + "/preferredName}";
+					oChildInput = new sap.m.Input(oView.createId("InputChildPreferredName" + counter),{
+						liveChange:[oController.childValidation,oController],
+						value:bindValue,
+						valueStateText:"Required"
+					});
+					oChildForm.addContent(oChildLabel);
+					oChildForm.addContent(oChildInput);
+
+					oChildLabel = new sap.m.Label({
 						text:"Birthdate",
 						required:true
 					});
@@ -335,7 +348,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					});
 					bindValue = "{/child/" + arrayNumber + "/friend}";
 					oChildInput = new sap.m.Input(oView.createId("InputChildFriend" + counter),{
-						value:bindValue
+						value:bindValue,
+						maxLength:10
 					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
