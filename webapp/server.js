@@ -5,8 +5,8 @@ var path = require('path');
 var database = require('./database.js');
 var regoFunction = require('./rego.js');
 
-const max_children = 240; // 120
-const max_regos = 240; // 170
+const max_children = 130; // 120
+const max_regos = 600; // 170
 const overrideCode = '7f74c2b8-1ab6-4221-906b-5c3756132c4e';
 
 var toLocalDate = function(utcDate) {
@@ -386,7 +386,7 @@ http.createServer(function (request, response) {
       }
     }
 
-}).listen(3125); //3125 loally and 80 on aws
+}).listen(80); //3125 loally and 80 on aws
 console.log('Server running at http://127.0.0.1:80/');
 
 },

@@ -47,20 +47,20 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			oDate = new Date("October 15, 2018 10:00:00");
+			//oDate = new Date("October 15, 2018 10:00:00");
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
-			if (year < 2018) { // year of SMAD camp
+			if (year < 2019) { // year of SMAD camp
 				if (oDate.getMonth() < 9) { // October - months start from 0
 					this._oApp.to(this._oWizardPreRegoPage);
 					preRego = true;
 				} else {
-					if (oDate.getMonth() === 9 && oDate.getDate() < 14) { //day of month
+					if (oDate.getMonth() === 9 && oDate.getDate() < 20) { //day of month
 						this._oApp.to(this._oWizardPreRegoPage);
 						preRego = true;
 					} else {
-						if (oDate.getDate() === 14 && oDate.getHours() < 10) {
+						if (oDate.getDate() === 20 && oDate.getHours() < 10) {
 							this._oApp.to(this._oWizardPreRegoPage);
 							preRego = true;
 						}
