@@ -47,11 +47,18 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			//oDate = new Date("October 15, 2018 10:00:00");
+			//oDate = new Date("October 20, 2018 10:00:00");
+
+			this._overridePre = false;
+			// override pre rego being closed
+			this._sValue = jQuery.sap.getUriParameters().get("regoID");
+			if (this._sValue === '4kgiKU-FDiDknk9-kdi-932fKF-dKD98D9ldkD') {
+				this._overridePre = true;
+			}
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
-			if (year < 2019) { // year of SMAD camp
+			if (year < 2019 && this._overridePre === false) { // year of SMAD camp
 				if (oDate.getMonth() < 9) { // October - months start from 0
 					this._oApp.to(this._oWizardPreRegoPage);
 					preRego = true;

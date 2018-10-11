@@ -5,9 +5,10 @@ var path = require('path');
 var database = require('./database.js');
 var regoFunction = require('./rego.js');
 
-const max_children = 130; // 120
-const max_regos = 600; // 170
+const max_children = 125; // 125
+const max_regos = 600; // 600
 const overrideCode = '7f74c2b8-1ab6-4221-906b-5c3756132c4e';
+const overridePreCode = '4kgiKU-FDiDknk9-kdi-932fKF-dKD98D9ldkD';
 
 var toLocalDate = function(utcDate) {
   var TZOffsetMs = 15*60*60*1000;
@@ -36,12 +37,16 @@ http.createServer(function (request, response) {
 
 // check for regoID param
     var override = false;
+    var overridePre = false;
     if (params !== undefined) {
       var paramArray = params.split('&');
       if (paramArray.length > 1) {
         params = paramArray[0];
         if (paramArray[1] === `regoID=${overrideCode}`) {
            override = true;
+        }
+        if (paramArray[1] === `regoID=${overridePreCode}`) {
+          overridePre = true;
         }
       }
     }
@@ -83,7 +88,7 @@ http.createServer(function (request, response) {
             response.end("Registration full", 'utf-8');
           } else {
             paramArray = params.split('=');
-            if (paramArray[0] === 'waitlist' && paramArray[1] === 'true') {
+            if (overridePre === false && paramArray[0] === 'waitlist' && paramArray[1] === 'true') {
               waitlist = true;
             }
             var rego = regoFunction.createRego(json);

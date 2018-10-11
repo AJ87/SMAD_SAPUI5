@@ -211,7 +211,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildInput = new sap.m.Input(oView.createId("InputChildPreferredName" + counter),{
 						liveChange:[oController.childValidation,oController],
 						value:bindValue,
-						valueStateText:"Required"
+						//valueStateText:"Required"
 					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
@@ -220,8 +220,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						text:"Birthdate",
 						required:true
 					});
-					var minDate = new Date(2004,0,1);
-					var maxDate = new Date(2013,11,31);
+					var minDate = new Date(2005,0,1);
+					var maxDate = new Date(2014,11,31);
 					bindValue = "{/child/" + arrayNumber + "/birthdate}";
 					oChildInput = new sap.m.DatePicker(oView.createId("InputChildBirthdate" + counter),{
 						change:[oController.childValidation,oController],
@@ -273,7 +273,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Year (beginning February 2018)",
+						text:"Year (beginning February 2019)",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/year}";
@@ -323,6 +323,9 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						selectedKey:bindValue,
 						valueStateText:"Required",
 						items:[{
+							key:"",
+							text:""
+						},{
 							key:"6",
 							text:"6"
 						},{
@@ -343,7 +346,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Friend request (must be same year and mutual)",
+						text:"One friend request (must be same year and mutual)",
 						required:false
 					});
 					bindValue = "{/child/" + arrayNumber + "/friend}";
