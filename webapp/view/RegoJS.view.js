@@ -220,7 +220,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						text:"Birthdate",
 						required:true
 					});
-					var minDate = new Date(2005,0,1);
+					var minDate = new Date(2006,0,1);
 					var maxDate = new Date(2014,11,31);
 					bindValue = "{/child/" + arrayNumber + "/birthdate}";
 					oChildInput = new sap.m.DatePicker(oView.createId("InputChildBirthdate" + counter),{
@@ -273,7 +273,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Year (beginning February 2019)",
+						text:"Year (beginning February 2020)",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/year}";
@@ -284,9 +284,9 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						items:[{
 							key:"",
 							text:""
-						},{
-							key:"Kindergarten",
-							text:"Kindergarten"
+					//	},{
+					//		key:"Kindergarten",
+					//		text:"Kindergarten"
 						},{
 							key:"Year 1",
 							text:"Year 1"

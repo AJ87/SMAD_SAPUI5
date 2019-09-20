@@ -52,22 +52,22 @@ sap.ui.define([
 			this._overridePre = false;
 			// override pre rego being closed
 			this._sValue = jQuery.sap.getUriParameters().get("regoID");
-			if (this._sValue === '4kgiKU-FDiDknk9-kdi-932fKF-dKD98D9ldkD') {
+			if (this._sValue === '6f121ebe-c9ef-4222-b943-8306160c6f1d') {
 				this._overridePre = true;
 			}
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
-			if (year < 2019 && this._overridePre === false) { // year of SMAD camp
+			if (year < 2020 && this._overridePre === false) { // year of SMAD camp
 				if (oDate.getMonth() < 9) { // October - months start from 0
 					this._oApp.to(this._oWizardPreRegoPage);
 					preRego = true;
 				} else {
-					if (oDate.getMonth() === 9 && oDate.getDate() < 20) { //day of month
+					if (oDate.getMonth() === 9 && oDate.getDate() < 19) { //day of month
 						this._oApp.to(this._oWizardPreRegoPage);
 						preRego = true;
 					} else {
-						if (oDate.getDate() === 20 && oDate.getHours() < 10) {
+						if (oDate.getDate() === 19 && oDate.getHours() < 10) {
 							this._oApp.to(this._oWizardPreRegoPage);
 							preRego = true;
 						}
