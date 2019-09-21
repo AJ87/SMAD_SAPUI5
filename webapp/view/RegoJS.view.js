@@ -304,8 +304,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 							text:"Year 5"
 						},{
 							key:"Year 6",
-							text:"Year 6"
-						}
+							text:"Year 6"}]
 					});
 					oChildForm.addContent(oChildLabel);
 					oChildForm.addContent(oChildInput);
