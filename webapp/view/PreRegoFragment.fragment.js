@@ -48,9 +48,8 @@ sap.ui.jsfragment("SMADJS.view.PreRegoFragment", {
 
 		var oPreRegoPage = new sap.m.Page({
 			title:"{i18n>appTitle}",
-			content: [oPanel, oPanel2, oSimpleForm],
-			showFooter:true,
-			footer:[oBar],
+			content: [oPanel],
+			showFooter:false,
 			showNavButton:false
 		});
 
