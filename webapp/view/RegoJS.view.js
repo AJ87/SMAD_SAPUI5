@@ -273,6 +273,44 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
+						text:"Current School Year",
+						required:true
+					});
+					bindValue = "{/child/" + arrayNumber + "/currentYear}";
+					oChildInput = new sap.m.Select(oView.createId("InputChildCurrentYear" + counter),{
+						change:[oController.childValidation,oController],
+						selectedKey:bindValue,
+						valueStateText:"Required",
+						items:[{
+							key:"",
+							text:""
+						},{
+							key:"Kindergarten",
+							text:"Kindergarten"
+						},{
+							key:"Year 1",
+							text:"Year 1"
+						},{
+							key:"Year 2",
+							text:"Year 2"
+						},{
+							key:"Year 3",
+							text:"Year 3"
+						},{
+							key:"Year 4",
+							text:"Year 4"
+						},{
+							key:"Year 5",
+							text:"Year 5"
+						},{
+							key:"Year 6",
+							text:"Year 6"
+						}
+					});
+					oChildForm.addContent(oChildLabel);
+					oChildForm.addContent(oChildInput);
+
+					oChildLabel = new sap.m.Label({
 						text:"Year (beginning February 2020)",
 						required:true
 					});
