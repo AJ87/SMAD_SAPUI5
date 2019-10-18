@@ -47,7 +47,7 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			//oDate = new Date("October 20, 2018 10:00:00");
+			//oDate = new Date("October 19, 2019 10:00:00");
 
 			this._overridePre = false;
 			// override pre rego being closed
