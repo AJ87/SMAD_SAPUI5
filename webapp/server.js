@@ -410,7 +410,10 @@ function rejected(reason) {
 );
 
 http.createServer(function(req,res) {
-  //res.redirect('https://' + req.headers.host + req.url);
+  //for local testing
   res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
+  // for AWS
+  res.writeHead(308, {'Location': 'https://' + req.headers.host + req.url});
+  
   res.end();
 }).listen(80);
