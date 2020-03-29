@@ -1,9 +1,19 @@
 'use strict';
 var http = require('http');
+var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var database = require('./database.js');
 var regoFunction = require('./rego.js');
+
+const options = {
+// for local testing
+//  key: fs.readFileSync('./../../keys/key.pem'),
+//  cert: fs.readFileSync('./../../keys/cert.pem')
+// for AWS
+  key: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/fullchain.pem')
+};
 
 const max_children = 125; // 125
 const max_regos = 600; // 600
@@ -22,7 +32,7 @@ database.initialise()
 
   regoFunction.initialise(database);
 
-http.createServer(function (request, response) {
+https.createServer(options, function (request, response) {
     console.log('request starting...');
     console.log(`URL: ${request.url}`);
 
@@ -390,8 +400,7 @@ http.createServer(function (request, response) {
         });
       }
     }
-
-}).listen(80); //3125 loally and 80 on aws
+}).listen(443); //3125 loally and 80 on aws 443 and 8000 for https
 console.log('Server running at http://127.0.0.1:80/');
 
 },
@@ -399,3 +408,9 @@ function rejected(reason) {
   console.log(`Error initialising database: ${reason}`);
 }
 );
+
+http.createServer(function(req,res) {
+  //res.redirect('https://' + req.headers.host + req.url);
+  res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
+  res.end();
+}).listen(80);
