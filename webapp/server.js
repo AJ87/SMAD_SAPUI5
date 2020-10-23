@@ -8,11 +8,11 @@ var regoFunction = require('./rego.js');
 
 const options = {
 // for local testing
-  key: fs.readFileSync('./../../keys/key.pem'),
-  cert: fs.readFileSync('./../../keys/cert.pem')
+//  key: fs.readFileSync('./../../keys/key.pem'),
+//  cert: fs.readFileSync('./../../keys/cert.pem')
 // for AWS
-//  key: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/privkey.pem'),
-//  cert: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/fullchain.pem')
+  key: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/fullchain.pem')
 };
 
 const max_children = 70; // 125
@@ -407,7 +407,7 @@ console.log(overridePre);
         });
       }
     }
-}).listen(3125); //3125 loally and 80 on aws 443 and 8000 for https
+}).listen(443); //3125 loally and 80 on aws 443 and 8000 for https
 console.log('Server running at http://127.0.0.1:80/');
 
 },
@@ -418,9 +418,9 @@ function rejected(reason) {
 
 http.createServer(function(req,res) {
   //for local testing
-  res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
+  //res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
   // for AWS
-  //res.writeHead(308, {'Location': 'https://' + 'smadcamp.com' + req.url});
+  res.writeHead(308, {'Location': 'https://' + 'smadcamp.com' + req.url});
 
   res.end();
-}).listen(8000);
+}).listen(80);
