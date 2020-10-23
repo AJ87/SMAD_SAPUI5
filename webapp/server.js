@@ -8,17 +8,17 @@ var regoFunction = require('./rego.js');
 
 const options = {
 // for local testing
-//  key: fs.readFileSync('./../../keys/key.pem'),
-//  cert: fs.readFileSync('./../../keys/cert.pem')
+  key: fs.readFileSync('./../../keys/key.pem'),
+  cert: fs.readFileSync('./../../keys/cert.pem')
 // for AWS
-  key: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/fullchain.pem')
+//  key: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/privkey.pem'),
+//  cert: fs.readFileSync('/etc/letsencrypt/live/smadcamp.com/fullchain.pem')
 };
 
-const max_children = 125; // 125
+const max_children = 70; // 125
 const max_regos = 600; // 600
-const overrideCode = 'd8a4cbba-a754-4bbb-83ca-736d9e056a66';
-const overridePreCode = '6f121ebe-c9ef-4222-b943-8306160c6f1d';
+const overrideCode = 'd8a4cbba-a754-4bbb-83ca-736h9e056a66';
+const overridePreCode = '6f121ebe-c9ef-4222-b943-8304160c6f1d';
 
 var toLocalDate = function(utcDate) {
   var TZOffsetMs = 15*60*60*1000;
@@ -58,9 +58,16 @@ https.createServer(options, function (request, response) {
         if (paramArray[1] === `regoID=${overridePreCode}`) {
           overridePre = true;
         }
+      } else {
+        if (paramArray[0] === `regoID=${overrideCode}`) {
+           override = true;
+        }
+        if (paramArray[0] === `regoID=${overridePreCode}`) {
+          overridePre = true;
+        }
       }
     }
-
+console.log(overridePre);
     var waitlist = false;
     var paramArray;
 
@@ -400,7 +407,7 @@ https.createServer(options, function (request, response) {
         });
       }
     }
-}).listen(443); //3125 loally and 80 on aws 443 and 8000 for https
+}).listen(3125); //3125 loally and 80 on aws 443 and 8000 for https
 console.log('Server running at http://127.0.0.1:80/');
 
 },
@@ -411,9 +418,9 @@ function rejected(reason) {
 
 http.createServer(function(req,res) {
   //for local testing
-  //res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
+  res.writeHead(308, {'Location': 'https://' + '127.0.0.1:8000' + req.url});
   // for AWS
-  res.writeHead(308, {'Location': 'https://' + 'smadcamp.com' + req.url});
+  //res.writeHead(308, {'Location': 'https://' + 'smadcamp.com' + req.url});
 
   res.end();
-}).listen(80);
+}).listen(8000);

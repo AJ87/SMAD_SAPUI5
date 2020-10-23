@@ -220,8 +220,8 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						text:"Birthdate",
 						required:true
 					});
-					var minDate = new Date(2006,0,1);
-					var maxDate = new Date(2014,11,31);
+					var minDate = new Date(2007,0,1);
+					var maxDate = new Date(2015,11,31);
 					bindValue = "{/child/" + arrayNumber + "/birthdate}";
 					oChildInput = new sap.m.DatePicker(oView.createId("InputChildBirthdate" + counter),{
 						change:[oController.childValidation,oController],
@@ -310,7 +310,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 					oChildForm.addContent(oChildInput);
 
 					oChildLabel = new sap.m.Label({
-						text:"Year (beginning February 2020)",
+						text:"Year (beginning February 2021)",
 						required:true
 					});
 					bindValue = "{/child/" + arrayNumber + "/year}";
@@ -360,9 +360,6 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 						selectedKey:bindValue,
 						valueStateText:"Required",
 						items:[{
-							key:"",
-							text:""
-						},{
 							key:"6",
 							text:"6"
 						},{
@@ -567,7 +564,7 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 
 		// 4th step - consent
 		oWStep = new sap.m.WizardStep(this.createId("WizardStepConsent"),{
-			title:"Consent",
+			title:"Consent (New Policies - Please Read)",
 			validated:false
 		});
 
@@ -637,6 +634,60 @@ sap.ui.jsview("SMADJS.view.RegoJS", {
 			titlePress:[oController.refund,oController]
 		});
 		oHBox = new sap.m.HBox(this.createId("HBoxRefund"),{
+			alignItems:"Center",
+			items:[oCheckBox,oText]
+		});
+		oSimpleForm.addContent(oHBox);
+		oWStep.addContent(oSimpleForm);
+
+		oSimpleForm = new sap.ui.layout.form.SimpleForm();
+		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBAttendance"),{
+			select:[oController.selected,oController],
+			selected:"{/consent/attendance}",
+			valueStateText:"Required"
+		});
+		oText = new sap.m.ObjectIdentifier(this.createId("AttendanceLink"),{
+			title:"Attendance Policy",
+			titleActive:true,
+			titlePress:[oController.attendance,oController]
+		});
+		oHBox = new sap.m.HBox(this.createId("HBoxAttendance"),{
+			alignItems:"Center",
+			items:[oCheckBox,oText]
+		});
+		oSimpleForm.addContent(oHBox);
+		oWStep.addContent(oSimpleForm);
+
+		oSimpleForm = new sap.ui.layout.form.SimpleForm();
+		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBPickUp"),{
+			select:[oController.selected,oController],
+			selected:"{/consent/pickUp}",
+			valueStateText:"Required"
+		});
+		oText = new sap.m.ObjectIdentifier(this.createId("PickUpLink"),{
+			title:"Pick-up and Drop-off Policy",
+			titleActive:true,
+			titlePress:[oController.pickUp,oController]
+		});
+		oHBox = new sap.m.HBox(this.createId("HBoxPickUp"),{
+			alignItems:"Center",
+			items:[oCheckBox,oText]
+		});
+		oSimpleForm.addContent(oHBox);
+		oWStep.addContent(oSimpleForm);
+
+		oSimpleForm = new sap.ui.layout.form.SimpleForm();
+		oCheckBox = new sap.m.CheckBox(this.createId("ConsentCBCovid"),{
+			select:[oController.selected,oController],
+			selected:"{/consent/covid}",
+			valueStateText:"Required"
+		});
+		oText = new sap.m.ObjectIdentifier(this.createId("CovidLink"),{
+			title:"Cancellation due to Covid Policy",
+			titleActive:true,
+			titlePress:[oController.covid,oController]
+		});
+		oHBox = new sap.m.HBox(this.createId("HBoxCovid"),{
 			alignItems:"Center",
 			items:[oCheckBox,oText]
 		});

@@ -346,6 +346,33 @@ sap.ui.jsfragment("SMADJS.view.ReviewFragment", {
 		oSimpleForm.addContent(oLabel);
 		oSimpleForm.addContent(oText);
 
+		oLabel = new sap.m.Label({
+			text:"Attendance Policy"
+		});
+		oText = new sap.m.Text(this.createId("ConsentAttendance"),{
+			text:"{= ${/consent/attendance} === true ? 'Consented' : 'Not consented'}"
+		});
+		oSimpleForm.addContent(oLabel);
+		oSimpleForm.addContent(oText);
+
+		oLabel = new sap.m.Label({
+			text:"Pick-up and Drop-off Policy"
+		});
+		oText = new sap.m.Text(this.createId("ConsentPickUp"),{
+			text:"{= ${/consent/pickUp} === true ? 'Consented' : 'Not consented'}"
+		});
+		oSimpleForm.addContent(oLabel);
+		oSimpleForm.addContent(oText);
+
+		oLabel = new sap.m.Label({
+			text:"Cancellation due to Covid Policy"
+		});
+		oText = new sap.m.Text(this.createId("ConsentCovid"),{
+			text:"{= ${/consent/covid} === true ? 'Consented' : 'Not consented'}"
+		});
+		oSimpleForm.addContent(oLabel);
+		oSimpleForm.addContent(oText);
+
 		oEditLink = new sap.m.Link({
 			text:"Edit",
 			press:[oController.editStep4,oController]

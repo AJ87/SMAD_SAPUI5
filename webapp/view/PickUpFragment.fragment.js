@@ -1,8 +1,8 @@
-sap.ui.jsfragment("SMADJS.view.RefundFragment", {
+sap.ui.jsfragment("SMADJS.view.PickUpFragment", {
 	createContent: function(oController) {
 
 		var oText1 = new sap.m.Text({
-			text:"I understand that once registered I will only be able to get a 75% refund of the cost of SMAD Camp if my child's place can be filled."
+			text:"I understand that no parents will be permitted on the premises."
 		});
 
 		var oPanel = new sap.m.Panel({
@@ -12,7 +12,7 @@ sap.ui.jsfragment("SMADJS.view.RefundFragment", {
 		});
 
 		var oText2 = new sap.m.Text({
-			text:"I understand that no refunds will be issued once the week has begun if my child cannot attend."
+			text:"I will remain in the car during drop-off and pick-up."
 		});
 
 		var oPanel2 = new sap.m.Panel({
@@ -21,31 +21,41 @@ sap.ui.jsfragment("SMADJS.view.RefundFragment", {
 			content:[oText2]
 		});
 
+		var oText3 = new sap.m.Text({
+			text:"I will email if I require a special consideration."
+		});
+
+		var oPanel3 = new sap.m.Panel({
+			class:"SapUiResponsiveMargin",
+			width:"auto",
+			content:[oText3]
+		});
+
 		var oButtonAccept = new sap.m.Button({
 			text:"Accept",
 			type:"Accept",
-			press:[oController.handleAcceptRefund,oController]
+			press:[oController.handleAcceptPickUp,oController]
 		});
 
 		var oButtonCancel = new sap.m.Button({
 			text:"Cancel",
 			type:"Reject",
-			press:[oController.handleCancelRefund,oController]
+			press:[oController.handleCancelPickUp,oController]
 		});
 
 		var oBar = new sap.m.Bar({
 			contentRight:[oButtonAccept,oButtonCancel]
 		});
 
-		var oRefundPage = new sap.m.Page({
-			title:"Refund Policy",
-			content: [oPanel,oPanel2],
+		var oPickUpPage = new sap.m.Page({
+			title:"Pick-up and Drop-off Policy",
+			content: [oPanel,oPanel2,oPanel3],
 			showFooter:true,
 			footer:[oBar],
 			showNavButton:true,
 			navButtonTap:[oController.backToWizard,oController]
 		});
 
-		return [oRefundPage];
+		return [oPickUpPage];
 	}
 });

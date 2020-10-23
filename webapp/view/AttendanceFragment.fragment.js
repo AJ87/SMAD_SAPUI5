@@ -1,8 +1,8 @@
-sap.ui.jsfragment("SMADJS.view.RefundFragment", {
+sap.ui.jsfragment("SMADJS.view.AttendanceFragment", {
 	createContent: function(oController) {
 
 		var oText1 = new sap.m.Text({
-			text:"I understand that once registered I will only be able to get a 75% refund of the cost of SMAD Camp if my child's place can be filled."
+			text:"I understand that my child/ren cannot attend SMAD Camp if they are showing any symptoms of Covid or have been in a Covid hotspot two weeks prior to the week of SMAD."
 		});
 
 		var oPanel = new sap.m.Panel({
@@ -12,7 +12,7 @@ sap.ui.jsfragment("SMADJS.view.RefundFragment", {
 		});
 
 		var oText2 = new sap.m.Text({
-			text:"I understand that no refunds will be issued once the week has begun if my child cannot attend."
+			text:"Please refer to the ACT website: https://www.covid19.act.gov.au/community/travel"
 		});
 
 		var oPanel2 = new sap.m.Panel({
@@ -24,21 +24,21 @@ sap.ui.jsfragment("SMADJS.view.RefundFragment", {
 		var oButtonAccept = new sap.m.Button({
 			text:"Accept",
 			type:"Accept",
-			press:[oController.handleAcceptRefund,oController]
+			press:[oController.handleAcceptAttendance,oController]
 		});
 
 		var oButtonCancel = new sap.m.Button({
 			text:"Cancel",
 			type:"Reject",
-			press:[oController.handleCancelRefund,oController]
+			press:[oController.handleCancelAttendance,oController]
 		});
 
 		var oBar = new sap.m.Bar({
 			contentRight:[oButtonAccept,oButtonCancel]
 		});
 
-		var oRefundPage = new sap.m.Page({
-			title:"Refund Policy",
+		var oAttendancePage = new sap.m.Page({
+			title:"Attendance Policy",
 			content: [oPanel,oPanel2],
 			showFooter:true,
 			footer:[oBar],
@@ -46,6 +46,6 @@ sap.ui.jsfragment("SMADJS.view.RefundFragment", {
 			navButtonTap:[oController.backToWizard,oController]
 		});
 
-		return [oRefundPage];
+		return [oAttendancePage];
 	}
 });

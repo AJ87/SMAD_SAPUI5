@@ -34,6 +34,15 @@ sap.ui.define([
 			this._oWizardRefundPage = sap.ui.jsfragment("SMADJS.view.RefundFragment", this);
 			this._oApp.addPage(this._oWizardRefundPage);
 
+			this._oWizardAttendancePage = sap.ui.jsfragment("SMADJS.view.AttendanceFragment", this);
+			this._oApp.addPage(this._oWizardAttendancePage);
+
+			this._oWizardPickUpPage = sap.ui.jsfragment("SMADJS.view.PickUpFragment", this);
+			this._oApp.addPage(this._oWizardPickUpPage);
+
+			this._oWizardCovidPage = sap.ui.jsfragment("SMADJS.view.CovidFragment", this);
+			this._oApp.addPage(this._oWizardCovidPage);
+
 			this._oWizardPreRegoPage = sap.ui.jsfragment("SMADJS.view.PreRegoFragment", this);
 			this._oApp.addPage(this._oWizardPreRegoPage);
 
@@ -47,23 +56,23 @@ sap.ui.define([
 			var preRego = false;
 
 			// for testing - comment out for live
-			//oDate = new Date("October 19, 2019 10:00:00");
+			//oDate = new Date("October 31, 2021 10:00:00");
 
 			this._overridePre = false;
 			// override pre rego being closed
 			this._sValue = jQuery.sap.getUriParameters().get("regoID");
-			if (this._sValue === '6f121ebe-c9ef-4222-b943-8306160c6f1d') {
+			if (this._sValue === '6f121ebe-c9ef-4222-b943-8304160c6f1d') {
 				this._overridePre = true;
 			}
 
 			// need to check year here
 			var year = oDate.getYear() + 1900; // years start counting from 1900
-			if (year < 2020 && this._overridePre === false) { // year of SMAD camp
+			if (year < 2021 && this._overridePre === false) { // year of SMAD camp
 				if (oDate.getMonth() < 9) { // October - months start from 0
 					this._oApp.to(this._oWizardPreRegoPage);
 					preRego = true;
 				} else {
-					if (oDate.getMonth() === 9 && oDate.getDate() < 19) { //day of month
+					if (oDate.getMonth() === 9 && oDate.getDate() < 31) { //day of month
 						this._oApp.to(this._oWizardPreRegoPage);
 						preRego = true;
 					} else {
@@ -268,17 +277,26 @@ sap.ui.define([
 			var firstAidSelectedEl = this.getView().byId("ConsentCBFirstAid");
 			var privacySelectedEl = this.getView().byId("ConsentCBPrivacy");
 			var refundSelectedEl = this.getView().byId("ConsentCBRefund");
+			var attendanceSelectedEl = this.getView().byId("ConsentCBAttendance");
+			var pickUpSelectedEl = this.getView().byId("ConsentCBPickUp");
+			var covidSelectedEl = this.getView().byId("ConsentCBCovid");
 			var termsSelected = termsSelectedEl.getSelected();
 			var firstAidSelected = firstAidSelectedEl.getSelected();
 			var privacySelected = privacySelectedEl.getSelected();
 			var refundSelected = refundSelectedEl.getSelected();
+			var attendanceSelected = attendanceSelectedEl.getSelected();
+			var pickUpSelected = pickUpSelectedEl.getSelected();
+			var covidSelected = covidSelectedEl.getSelected();
 
 			this.setValueState(termsSelected, termsSelectedEl);
 			this.setValueState(firstAidSelected, firstAidSelectedEl);
 			this.setValueState(privacySelected, privacySelectedEl);
 			this.setValueState(refundSelected, refundSelectedEl);
+			this.setValueState(attendanceSelected, attendanceSelectedEl);
+			this.setValueState(pickUpSelected, pickUpSelectedEl);
+			this.setValueState(covidSelected, covidSelectedEl);
 
-			if (termsSelected && firstAidSelected && privacySelected && refundSelected) {
+			if (termsSelected && firstAidSelected && privacySelected && refundSelected && attendanceSelected && pickUpSelected && covidSelected) {
 				this._wizard.validateStep(this.getView().byId("WizardStepConsent"));
 			} else {
 				this._wizard.invalidateStep(this.getView().byId("WizardStepConsent"));
@@ -295,6 +313,15 @@ sap.ui.define([
 		},
 		refund: function() {
 			this._oApp.to(this._oWizardRefundPage);
+		},
+		attendance: function() {
+			this._oApp.to(this._oWizardAttendancePage);
+		},
+		pickUp: function() {
+			this._oApp.to(this._oWizardPickUpPage);
+		},
+		covid: function() {
+			this._oApp.to(this._oWizardCovidPage);
 		},
 		wizardCompleted: function() {
 
@@ -354,6 +381,36 @@ sap.ui.define([
 		},
 		handleCancelRefund: function() {
 			this.getView().byId("ConsentCBRefund").setProperty("selected",false);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleAcceptAttendance: function() {
+			this.getView().byId("ConsentCBAttendance").setProperty("selected",true);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleCancelAttendance: function() {
+			this.getView().byId("ConsentCBAttendance").setProperty("selected",false);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleAcceptPickUp: function() {
+			this.getView().byId("ConsentCBPickUp").setProperty("selected",true);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleCancelPickUp: function() {
+			this.getView().byId("ConsentCBPickUp").setProperty("selected",false);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleAcceptCovid: function() {
+			this.getView().byId("ConsentCBCovid").setProperty("selected",true);
+			this.selected();
+			this._oApp.backToPage(this._oPage.getId());
+		},
+		handleCancelCovid: function() {
+			this.getView().byId("ConsentCBCovid").setProperty("selected",false);
 			this.selected();
 			this._oApp.backToPage(this._oPage.getId());
 		},
