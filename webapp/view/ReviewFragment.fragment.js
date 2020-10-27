@@ -218,7 +218,7 @@ sap.ui.jsfragment("SMADJS.view.ReviewFragment", {
 			oSimpleForm.addContent(oText);
 
 			oLabel = new sap.m.Label({
-				text:"Year (beginning February 2020)"
+				text:"Year (beginning February 2021)"
 			});
 			bindValue = "{/child/" + i + "/year}";
 			oText = new sap.m.Text(this.createId("ChildYear" + i),{
